@@ -64,7 +64,7 @@ const dataOverview = () => {
               <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text>
-                {'\n'}State-Wise
+                {'\n'}District-Wise
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
@@ -76,7 +76,7 @@ const dataOverview = () => {
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Graph Interval: </Text>
-                {'\n'}Week-Month-Year
+                {'\n'}For Specific Date
               </Text>
             </Card>
           </TouchableOpacity>
@@ -100,7 +100,7 @@ const dataOverview = () => {
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Graph Interval: </Text>
-                {'\n'}Week-Month-Year
+                {'\n'}For Specific Date
               </Text>
             </Card>
           </TouchableOpacity>
@@ -109,19 +109,19 @@ const dataOverview = () => {
               <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Granularity:</Text>
-                {'\n'}City-Wise
+                {'\n'}District-Wise
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Update Interval:</Text>
-                {'\n'}Weekly
+                {'\n'}Weekly Once
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Availability:</Text>
-                {'\n'}For Specific Date
+                {'\n'}For Every Week
               </Text>
               <Text style={styles.textStyle}>
                 <Text style={styles.subHeading}>Map Interval:</Text>
-                {'\n'}Specific Date
+                {'\n'} Week
               </Text>
             </Card>
           </TouchableOpacity>

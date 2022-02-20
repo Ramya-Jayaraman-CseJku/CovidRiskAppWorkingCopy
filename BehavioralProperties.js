@@ -75,7 +75,7 @@ function BehavioralProperties({todos}) {
         title={
           <Text
             style={{
-              color: 'blue',
+              color: '#9239FE',
               fontSize: 18,
               fontStyle: 'normal',
               paddingRight: 45,
@@ -93,7 +93,7 @@ function BehavioralProperties({todos}) {
           size: 18,
           rounded: true,
           thickness: 5,
-          color: 'blue',
+          color: '#9239FE',
         }}
         /* collapsibleContainerStyle={{position: 'absolute', top: '100%'}}
         touchableWrapperProps={{paddingLeft: 5, marginLeft: 5}}

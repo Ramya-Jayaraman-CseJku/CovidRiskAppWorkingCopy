@@ -75,7 +75,7 @@ function MyTabs() {
         component={MainStackNavigator}
         options={{
           tabBarLabel: 'Modal',
-          tabBarColor: '#8d4bba',
+          tabBarColor: '#9239FE',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
               name="thought-bubble"

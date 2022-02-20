@@ -11,10 +11,10 @@ function MyStack() {
     <View style={styles.container}>
       <StatusBar
         animated={true}
-        backgroundColor="#8d4bba"
+        backgroundColor="#9239FE"
         barStyle={'light-content'}
         showHideTransition={'fade'}
-        hidden={false}
+        hidden={true}
       />
       <Stack.Navigator
         initialRouteName="Modal Parameters"
@@ -22,14 +22,14 @@ function MyStack() {
           headerMode: 'screen',
           headerTintColor: 'white',
           headerStyle: {
-            backgroundColor: '#8d4bba',
+            backgroundColor: '#9239FE',
           },
         }}>
         <Stack.Screen
           name="Modal Parameters"
           component={modelParamSelection}
           options={{
-            backgroundColor: '#8d4bba',
+            backgroundColor: '#9239FE',
 
             headerTitleAlign: 'center',
           }}
@@ -38,7 +38,7 @@ function MyStack() {
           name="Simulation"
           component={Simulation}
           options={{
-            backgroundColor: '#8d4bba',
+            backgroundColor: '#9239FE',
 
             headerTitleAlign: 'center',
           }}

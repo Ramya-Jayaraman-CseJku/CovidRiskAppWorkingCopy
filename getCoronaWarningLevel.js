@@ -31,6 +31,7 @@ export default function getWarningLevelDataAPI() {
   );
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [errorDate, setError] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date('2021-10-28'));
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
@@ -38,7 +39,7 @@ export default function getWarningLevelDataAPI() {
   const getWarnLevelDates = async () => {
     try {
       const response = await fetch(
-        `https://covidinfoapi.appspot.com/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
+        `https://covid19infoapi.appspot.com/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
       );
       const json = await response.json();
       setDistrictName(json);
@@ -127,9 +128,20 @@ export default function getWarningLevelDataAPI() {
     return format;
   }
   const onDatePress = date => {
-    setSelectedDate(date);
-    setSelectedWarnLevelDate(parseDate(date));
-    setLoading(true);
+    var currentDate = new Date();
+    var checkSelectedDate = new Date(date);
+
+    if (checkSelectedDate > currentDate) {
+      setSelectedDate(date);
+      setSelectedWarnLevelDate(parseDate(date));
+      setError(true);
+      setLoading(true);
+    } else {
+      setSelectedDate(date);
+      setSelectedWarnLevelDate(parseDate(date));
+      setLoading(true);
+      setError(false);
+    }
   };
   const renderItem = ({item}) => {
     const dayNumber = item.getDate();
@@ -191,9 +203,9 @@ export default function getWarningLevelDataAPI() {
           backgroundColor="#d78700"
           barStyle={'light-content'}
           showHideTransition={'fade'}
-          hidden={false}
+          hidden={true}
         />
-        <View>
+        <View style={{paddingTop: 1}}>
           <Header
             backgroundColor="#d78700"
             centerComponent={{
@@ -231,7 +243,7 @@ export default function getWarningLevelDataAPI() {
 
         <View style={styles.map}>
           {loading ? (
-            <View style={{paddingTop: 150}}>
+            <View style={{paddingTop: 250}}>
               <ActivityIndicator />
               <Text style={{textAlign: 'center'}}>Loading...</Text>
             </View>
@@ -264,6 +276,15 @@ export default function getWarningLevelDataAPI() {
             </MapView>
           )}
         </View>
+        <View style={styles.map}>
+          {errorDate ? (
+            <View style={{paddingTop: 250}}>
+              <Text style={{textAlign: 'center'}}>
+                Please Choose a date less than or equal to current date
+              </Text>
+            </View>
+          ) : null}
+        </View>
         <View style={{paddingTop: 400}}>
           <Card containerStyle={styles.cardStyle}>
             <Card.Title style={styles.cardTitle}>
@@ -279,7 +300,7 @@ export default function getWarningLevelDataAPI() {
               // initialNumToRender={15}
               maxToRenderPerBatch={65}
               showsHorizontalScrollIndicator={true}
-              initialScrollIndex={result.length - 1}
+              initialScrollIndex={result.length - 3}
               contentContainerStyle={[{paddingLeft: 4, paddingRight: 4}]}
             />
           </Card>
@@ -296,7 +317,7 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    top: 80,
+    top: 70,
     //top: 60,
     height: 500,
   },

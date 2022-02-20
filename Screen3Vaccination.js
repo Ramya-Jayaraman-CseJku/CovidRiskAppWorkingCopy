@@ -91,8 +91,6 @@ export default function getFullyVaccinatedCountAPI() {
     getVaccinationData();
   }, [selectedStateName, selectedInterval]);
 
-  //const url1 = `https://ecfd241ea67c.ngrok.io/api/Vaccination/?statename=${url.stateName}&year=${url.year}&interval=${url.interval}`;
-
   function searchData(text) {
     console.log(text);
     const newData = ddvalues.filter(item => {
@@ -125,7 +123,7 @@ export default function getFullyVaccinatedCountAPI() {
     </ScrollView>
   );
   const renderItem = ({item}) => {
-    const color = item.stateName === selectedStateName ? 'green' : 'black';
+    const color = item.stateName === selectedStateName ? '#167AE7' : 'black';
 
     return (
       <Item
@@ -174,6 +172,7 @@ export default function getFullyVaccinatedCountAPI() {
                   value={query}
                   underlineColorAndroid="transparent"
                   placeholder="Search for a state"
+                  placeholderTextColor={'black'}
                 />
 
                 <FlatList
@@ -367,7 +366,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'dodgerblue',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#F93C2D',
   },
   textStyle: {
     fontSize: 15,

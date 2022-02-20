@@ -13,6 +13,7 @@ import BehavioralProperties from './BehavioralProperties';
 import RoomProperties from './RoomProperties';
 import InfectedPersonProperties from './InfectedPersonProperties';
 import ModalParameters from './data';
+import RNCarousalCard from './rnCarousal';
 const STYLES = ['default', 'dark-content', 'light-content'];
 const TRANSITIONS = ['fade', 'slide', 'none'];
 
@@ -90,7 +91,7 @@ export default function ModelParamSelection({navigation}) {
           <Button
             // disabled={!enabled}
             title="Start Simulation"
-            color="#2C76F0"
+            color="#9239FE"
             onPress={() => {
               navigation.navigate('Simulation', {
                 selectedeventType: eventType,

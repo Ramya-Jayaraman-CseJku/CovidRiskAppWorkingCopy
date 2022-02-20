@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 2,
     textAlign: 'left',
-    color: '#1C6BED',
+    color: '#9239FE',
   },
   RiskInf: {
     fontSize: 17,
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     padding: 1,
 
     //marginTop: 5,
-    color: '#1C6BED',
+    color: '#9239FE',
   },
 
   title: {
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#F93C2D',
   },
   textStyle: {
     color: 'white',
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   collapsibleButton: {
-    backgroundColor: '#3182FC',
+    backgroundColor: '#9239FE',
     marginTop: 5,
     borderRadius: 20,
     padding: 10,

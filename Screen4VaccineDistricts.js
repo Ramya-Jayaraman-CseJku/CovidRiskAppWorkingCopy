@@ -6,21 +6,19 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   Pressable,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
   Modal,
-  StatusBar,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-import * as dropdownvales from './dropDownValues.json';
-
 import {
+  VictoryBar,
+  VictoryGroup,
   VictoryLine,
   VictoryChart,
   VictoryTheme,
-  VictoryBar,
   VictoryZoomContainer,
   VictoryTooltip,
   VictoryBrushContainer,
@@ -29,101 +27,75 @@ import {
   createContainer,
   VictoryLabel,
 } from 'victory-native';
-import {Button, Header, Icon} from 'react-native-elements';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
-const STYLES = ['default', 'dark-content', 'light-content'];
-const TRANSITIONS = ['fade', 'slide', 'none'];
 
-export default function getPositiveCasesCountAPI() {
-  const [hidden, setHidden] = useState(false);
-  const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
-  const [statusBarTransition, setStatusBarTransition] = useState(
-    TRANSITIONS[2],
-  );
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import * as dropdownvales from './municipalities.json';
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+
+export default function getFullyVaccinatedCountAPI() {
   const [visible, setVisible] = useState(false);
-  const [selectedInterval, setSelectedInterval] = useState('Monthly');
-  const [selectedYear, setSelectedYear] = useState('2021');
-  const [selectedDistrict, setselectedDistrict] = useState('Linz-Land');
-  const [showLineChart, setShowLineChart] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [visibleYear, setVisibleYear] = useState(false);
-  const [selectedDomain, setSelectedDomain] = useState();
-  const [zoomDomain, setZoomDomain] = useState();
-  const [districtWisePositiveCases, setDistrictWisePositiveCases] = useState(
-    [],
-  );
-  const [modalVisiblePlaces, setModalVisiblePlaces] = useState(false);
-  const [state, setState] = useState({data: dropdownvales['Districts']});
+  const [districtWiseVaccCount, setDistrictWiseVaccCount] = useState([]);
+  const [selectedDistrictName, setSelectedDistrictName] = useState('Linz');
+  const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [query, setQuery] = useState('');
+
+  const [state, setState] = useState({data: dropdownvales['Municipalities']});
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const selectedYear = 2021;
 
   const showMenu = () => setVisible(true);
   const hideMenu = () => setVisible(false);
-  const showMenuYear = () => setVisibleYear(true);
-  const hideMenuYear = () => setVisibleYear(false);
+
   const getSelectedInterval = Interval => {
     setSelectedInterval(Interval);
+    //hideMenu();
   };
+  const getSelectedState = district => {
+    setSelectedDistrictName(district);
 
-  const getSelectedYear = year => {
-    setSelectedYear(year);
+    setModalVisible(!modalVisible);
   };
+  const visibleYear = true;
 
-  const getSelectedDistrict = district => {
-    setselectedDistrict(district);
+  const ddvalues = dropdownvales['Municipalities'];
 
-    setModalVisiblePlaces(!modalVisiblePlaces);
-  };
-
-  const ddvalues = dropdownvales['Districts'];
-
-  /* const encodedDistrict = encodeURIComponent(selectedDistrictName);
+  /* const encodedDistrict = encodeURIComponent(selectedStateName);
   const encodedYear = encodeURIComponent(year);
   const encodedInterval = encodeURIComponent(interval); */
   //brush and zoomDomain
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
-
+  const [selectedDomain, setSelectedDomain] = useState();
+  const [zoomDomain, setZoomDomain] = useState();
   const handleZoom = domain => {
     setSelectedDomain(domain);
   };
   const handleBrush = domain => {
     setZoomDomain(domain);
   };
-  const getDistrictData = async () => {
+  const getVaccinationData = async () => {
     try {
       const response = await fetch(
-        `https://covid19infoapi.appspot.com/api/positivecasesbydistrict/?districtname=${selectedDistrict}&year=${selectedYear}&interval=${selectedInterval}`,
+        `https://covid19infoapi.appspot.com/api/VaccinationDistricts/?districtname=${selectedDistrictName}`,
       );
       const json = await response.json();
-      setDistrictWisePositiveCases(json.data);
+      setDistrictWiseVaccCount(json.data);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
-  let months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'November',
-    'December',
-  ];
 
   useEffect(() => {
-    getDistrictData();
-  }, [selectedDistrict, selectedYear, selectedInterval]);
+    getVaccinationData();
+  }, [selectedDistrictName, selectedInterval]);
 
   function searchData(text) {
     console.log(text);
     const newData = ddvalues.filter(item => {
-      const itemData = item.districtName.toUpperCase();
+      const itemData = item.municipality_name.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
@@ -147,42 +119,40 @@ export default function getPositiveCasesCountAPI() {
   const Item = ({item, onPress, textColor}) => (
     <ScrollView>
       <TouchableOpacity onPress={onPress}>
-        <Text style={[textColor, styles.row]}>{item.districtName}</Text>
+        <Text style={[textColor, styles.row]}>{item.municipality_name}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
   const renderItem = ({item}) => {
-    const color = item.districtName === selectedDistrict ? 'green' : 'black';
+    const color =
+      item.municipality_name === selectedDistrictName ? 'green' : 'black';
 
     return (
       <Item
         item={item}
-        onPress={() => getSelectedDistrict(item.districtName)}
+        onPress={() => getSelectedState(item.municipality_name)}
         textColor={{color}}
       />
     );
   };
   var MyChart = (
-    <VictoryLine
-      data={districtWisePositiveCases}
-      x={'Interval'}
-      y={'AnzahlFaelle'}
+    <VictoryBar
+      data={districtWiseVaccCount}
+      x={'Type'}
+      y={'Dose'}
+      labels={({datum}) => `${datum.Dose}`}
       style={{
-        data: {stroke: '#00A2EB', strokeWidth: 3},
-        parent: {border: '1px solid #ccc'},
+        data: {stroke: 'green', strokeWidth: 3, fill: '#00A2EB'},
+        parent: {border: '7px solid #ccc'},
       }}
-      interpolation="catmullRom"
     />
   );
-
   if (loading)
     return (
-      <View style={{paddingTop: 150}}>
+      <View>
         <ActivityIndicator />
-        <Text style={{textAlign: 'center'}}>Loading...</Text>
       </View>
     );
-
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -190,10 +160,9 @@ export default function getPositiveCasesCountAPI() {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisiblePlaces}
+            visible={modalVisible}
             onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisiblePlaces(!modalVisiblePlaces);
+              setModalVisible(!modalVisible);
             }}>
             <View style={styles.centeredView1}>
               <View style={styles.modalView}>
@@ -202,13 +171,13 @@ export default function getPositiveCasesCountAPI() {
                   onChangeText={text => searchData(text)}
                   value={query}
                   underlineColorAndroid="transparent"
-                  placeholder="Search for a city"
+                  placeholder="Search for a district"
                   placeholderTextColor="black"
                 />
 
                 <FlatList
                   data={state.data}
-                  keyExtractor={item => item.id.toString()}
+                  keyExtractor={(item, id) => id.toString()}
                   ItemSeparatorComponent={itemSeparator}
                   initialNumToRender={5}
                   renderItem={renderItem}
@@ -216,17 +185,17 @@ export default function getPositiveCasesCountAPI() {
                 />
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisiblePlaces(!modalVisiblePlaces)}>
+                  onPress={() => setModalVisible(!modalVisible)}>
                   <Text style={styles.ModalButtontextStyle}>Close</Text>
                 </Pressable>
               </View>
             </View>
           </Modal>
-
           <View style={styles.row1}>
             <View>
               <Text style={styles.heading}>
-                COVID-19 Positive Cases Count {'\n'}
+                {' '}
+                Vaccinated Count - District {'\n'}
               </Text>
             </View>
           </View>
@@ -237,76 +206,35 @@ export default function getPositiveCasesCountAPI() {
             textAlign: 'center',
             justifyContent: 'center',
           }}>
-          <Text
-            style={styles.textStyle}
-            onPress={() => setModalVisiblePlaces(true)}>
-            {selectedDistrict}
-          </Text>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <Text style={styles.textStyle}>{selectedDistrictName} </Text>
+          </Pressable>
 
-          <Menu
-            visible={visible}
-            onRequestClose={hideMenu}
-            anchor={
-              <Text style={styles.textStyle} onPress={showMenu}>
-                {selectedInterval}
-              </Text>
-            }>
-            <MenuItem
-              onPress={() => getSelectedInterval('Daily')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Daily Count
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Weekly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Week
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Monthly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Month
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Yearly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Year
-            </MenuItem>
-          </Menu>
+          <Text style={styles.textStyle}>
+            Population: {districtWiseVaccCount[0].municipality_population}
+          </Text>
+          <Text style={styles.textStyle}>
+            Date: {districtWiseVaccCount[0].Interval}
+          </Text>
         </View>
 
         <VictoryChart
           theme={VictoryTheme.material}
-          width={380}
+          width={400}
           height={550}
-          domainPadding={{x: [2, 20]}}
-          padding={{top: 100, left: 60, right: 30, bottom: 60}}
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-              allowPan={true}
-              allowZoom={true}
-              responsive={false}
-              zoomDimension="x"
-              minimumZoom={{x: 4, y: 0.01}}
-              /* zoomDomain={zoomDomain}
-              onZoomDomainChange={handleZoom} */
-              labels={({datum}) => `cases:${datum.AnzahlFaelle}`}
-            />
-          }>
+          domainPadding={{x: [40, 40]}}
+          padding={{top: 60, left: 75, right: 40, bottom: 70}}>
           <VictoryAxis
             dependentAxis
             fixLabelOverlap={true}
-            tickValues={districtWisePositiveCases.Interval}
+            tickValues={districtWiseVaccCount['Type']}
             style={{
-              axis: {stroke: 'black'},
+              axis: {stroke: 'black', size: 7},
               ticks: {stroke: 'black'},
 
               tickLabels: {
                 fill: 'black',
-                fontSize: 13,
+                fontSize: 14,
               },
               grid: {
                 stroke: 'transparent',
@@ -316,17 +244,18 @@ export default function getPositiveCasesCountAPI() {
           <VictoryAxis
             fixLabelOverlap={true}
             independentAxis
-            tickLabelComponent={<VictoryLabel angle={-19} y={460} dy={60} />}
+            tickLabelComponent={<VictoryLabel y={460} dy={60} />}
             style={{
-              axis: {stroke: 'black'},
+              axis: {stroke: 'black', size: 7},
               ticks: {stroke: 'black'},
 
               tickLabels: {
                 fill: 'black',
-                fontSize: 13,
+                fontSize: 14,
               },
               grid: {
                 stroke: 'transparent',
+                size: 7,
               },
             }}
           />
@@ -341,21 +270,34 @@ export default function getPositiveCasesCountAPI() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 0,
+
+    paddingTop: 3,
+    backgroundColor: '#eeeeee',
   },
   row1: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  parametersRow: {
-    flexDirection: 'row',
-  },
-
   centeredView: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 22,
+  },
+  centeredView1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 110,
+    marginBottom: 150,
+  },
+  row: {
+    fontSize: 18,
+    padding: 10,
+  },
+  parametersRow: {
+    flexDirection: 'row',
   },
   fixToText: {
     flexDirection: 'row',
@@ -366,6 +308,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -377,7 +320,8 @@ const styles = StyleSheet.create({
     width: 320,
   },
   button: {
-    width: 100,
+    marginLeft: 5,
+    width: 120,
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -392,11 +336,11 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: 'dodgerblue',
   },
-  /*  buttonClose: {
+  buttonClose: {
     backgroundColor: '#F93C2D',
-  }, */
+  },
   textStyle: {
     fontSize: 15,
     color: '#0597D8',
@@ -421,10 +365,6 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
-  iconSetting: {
-    width: 50,
-    height: 50,
-  },
   heading: {
     fontSize: 16,
     color: '#0597D8',
@@ -438,12 +378,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
-  flatlistcontainer: {
-    height: 300,
-  },
-  row: {
-    fontSize: 18,
-    padding: 10,
+  ModalButtontextStyle: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   textInput: {
     fontSize: 18,
@@ -455,53 +394,6 @@ const styles = StyleSheet.create({
     borderColor: '#009688',
     borderRadius: 50,
     backgroundColor: '#FFFF',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  centeredView1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 50,
-    marginBottom: 50,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginLeft: 5,
-    width: 120,
-  },
-  buttonOpen: {
-    backgroundColor: 'dodgerblue',
-  },
-  buttonClose: {
-    backgroundColor: '#F93C2D',
-  },
-  ModalButtontextStyle: {
-    color: 'white',
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,

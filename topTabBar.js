@@ -4,7 +4,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import getPositiveCasesCountAPI from './Screen2PositiveCount';
 import getFullyVaccinatedCountAPI from './Screen3Vaccination';
 import getReffectiveValue from './Screen4Reff';
-
+import getVaccineDistricts from './Screen4VaccineDistricts';
 const Tab = createMaterialTopTabNavigator();
 
 function MyTabs() {
@@ -15,10 +15,10 @@ function MyTabs() {
         backgroundColor="#148F77"
         barStyle={'light-content'}
         showHideTransition={'fade'}
-        hidden={false}
+        hidden={true}
       />
       <Tab.Navigator
-        style={{paddingTop: 30}}
+        style={{paddingTop: 1}}
         initialRouteName="PositiveCasesCount"
         screenOptions={{
           tabBarActiveTintColor: 'white',
@@ -39,6 +39,11 @@ function MyTabs() {
           name="REffective"
           component={getReffectiveValue}
           options={{tabBarLabel: 'REff'}}
+        />
+        <Tab.Screen
+          name="Vacc"
+          component={getVaccineDistricts}
+          options={{tabBarLabel: 'Vacc'}}
         />
       </Tab.Navigator>
     </View>

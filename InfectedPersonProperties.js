@@ -68,7 +68,7 @@ function InfectedPersonProperties({infectedpplprops}) {
           size: 18,
           rounded: true,
           thickness: 5,
-          color: 'blue',
+          color: '#9239FE',
         }}
         titleStyle={{paddingLeft: 5, marginLeft: 5, alignContent: 'center'}}>
         <Card containerStyle={styles.cardContainer}>
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     height: 45,
   },
   textstyle: {
-    color: 'blue',
+    color: '#9239FE',
     fontSize: 18,
     fontStyle: 'normal',
     paddingLeft: 3,

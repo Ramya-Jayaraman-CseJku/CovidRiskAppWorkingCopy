@@ -8,8 +8,12 @@ import {
   Button,
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-export const SLIDER_WIDTH = Dimensions.get('window').width - 50;
-export const ITEM_WIDTH = Math.round(SLIDER_WIDTH + 30);
+/* export const SLIDER_WIDTH = Dimensions.get('window').width - 80;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
+ */
+export const SLIDER_WIDTH = 380;
+export const ITEM_WIDTH = 430;
+
 export default function ModalParameters({todos}) {
   const isCarousel = React.useRef(null);
   const [index, setIndex] = useState({activeIndex: 0});
@@ -76,9 +80,9 @@ export default function ModalParameters({todos}) {
         speechVolume +
         '\n' +
         'Speech Duration -' +
-        speechDuration +
-        '\n' +
-        'Respiratory volume - 10',
+        speechDuration,
+      //'\n' +
+      // 'Respiratory volume - 10',
     },
   ];
   const CarouselCardItem = ({item, index}) => {
@@ -94,16 +98,19 @@ export default function ModalParameters({todos}) {
       <View style={styles.CarousalContainer}>
         <Carousel
           layout={'default'}
-          layoutCardOffset={9}
+          layoutCardOffset={18}
+          inactiveSlideScale={0.94}
+          inactiveSlideOpacity={0.7}
+          initialNumToRender={3}
           ref={isCarousel}
           data={data}
           renderItem={CarouselCardItem}
           sliderWidth={SLIDER_WIDTH}
           itemWidth={ITEM_WIDTH}
-          useScrollView={true}
+          useScrollView={false}
           onSnapToItem={index => setIndex({activeIndex: index})}
         />
-      {/*   <View style={styles.buttonStyle1}>
+        {/*   <View style={styles.buttonStyle1}>
           <Button
             disabled={false}
             title="Start Simulation"
@@ -146,7 +153,7 @@ export default function ModalParameters({todos}) {
               height: 10,
               borderRadius: 5,
               marginHorizontal: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.92)',
+              backgroundColor: 'black',
             }}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
@@ -159,53 +166,55 @@ export default function ModalParameters({todos}) {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F1F3F6',
+    backgroundColor: 'white',
     borderRadius: 8,
-    width: 280,
+    width: 340,
+    height: 200,
     marginTop: 10,
-    padding: 5,
-    paddingTop: 10,
-    marginBottom: 15,
-    paddingBottom: 10,
-    marginLeft: 50,
-    marginRight: 50,
-    shadowColor: '#000000',
+
+    //paddingTop: 10,
+    marginBottom: 10,
+    //paddingBottom: 30,
+    marginLeft: 30,
+    marginRight: 90,
+    shadowColor: 'white',
     shadowOffset: {
       width: 1,
       height: 5,
     },
-    // borderWidth: 1,
-    //borderColor: 'black',
+    borderWidth: 2,
+    borderColor: '#9239FE',
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
   },
 
   header: {
-    color: 'blue',
-    fontSize: 19,
+    color: 'white',
+    backgroundColor: '#9239FE',
+    fontSize: 20,
+    textAlign: 'center',
     fontWeight: 'bold',
-    paddingLeft: 10,
+    borderRadius: 5,
     paddingTop: 10,
+    paddingBottom: 10,
   },
   body: {
     color: '#222',
     fontSize: 18,
-    paddingLeft: 10,
-    paddingRight: 10,
-
-    paddingTop: 10,
+    padding: 7,
+    textAlign: 'left',
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   CarousalContainer: {
-    paddingTop: 50,
+    paddingTop: 80,
   },
   CarousalPagination: {
-    paddingTop: 40,
+    marginTop: 10,
   },
   buttonStyle1: {
-    paddingTop: 40,
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingBottom: 20,
   },
 });

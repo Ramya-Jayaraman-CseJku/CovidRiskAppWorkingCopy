@@ -180,7 +180,7 @@ function RoomProperties({roomprops}) {
         title={
           <Text
             style={{
-              color: 'blue',
+              color: '#9239FE',
               fontSize: 18,
               fontStyle: 'normal',
               paddingRight: 80,
@@ -198,7 +198,7 @@ function RoomProperties({roomprops}) {
           size: 18,
           rounded: true,
           thickness: 5,
-          color: 'blue',
+          color: '#9239FE',
         }}
         titleStyle={{paddingLeft: 5, marginLeft: 5, alignContent: 'center'}}>
         <Card containerStyle={styles.cardContainer}>
