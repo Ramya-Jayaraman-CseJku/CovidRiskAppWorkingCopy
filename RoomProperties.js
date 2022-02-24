@@ -24,6 +24,12 @@ function RoomProperties({roomprops}) {
       roomprops.setCeilingHeight(3);
       roomprops.setDurationofStay(12);
       roomprops.setNoOfPeople(24);
+      roomprops.setMaskTypeI('No Mask');
+      roomprops.setMaskTypeN('No Mask');
+      roomprops.setMaskCategoryPpl('None');
+      roomprops.setVentilationType('Window Closed');
+      roomprops.setSpeechVolumeText('Normal');
+      roomprops.setSpeechDurationinTime('10%');
     } else if (selectedId == 'Office') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(2);
@@ -35,6 +41,12 @@ function RoomProperties({roomprops}) {
       roomprops.setCeilingHeight(3);
       roomprops.setDurationofStay(16);
       roomprops.setNoOfPeople(4);
+      roomprops.setMaskTypeI('No Mask');
+      roomprops.setMaskTypeN('No Mask');
+      roomprops.setMaskCategoryPpl('None');
+      roomprops.setVentilationType('Window Closed');
+      roomprops.setSpeechVolumeText('Normal');
+      roomprops.setSpeechDurationinTime('10%');
     } else if (selectedId == 'Reception') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(2);
@@ -46,6 +58,12 @@ function RoomProperties({roomprops}) {
       roomprops.setCeilingHeight(4);
       roomprops.setDurationofStay(3);
       roomprops.setNoOfPeople(100);
+      roomprops.setMaskTypeI('No Mask');
+      roomprops.setMaskTypeN('No Mask');
+      roomprops.setMaskCategoryPpl('None');
+      roomprops.setVentilationType('Window Closed');
+      roomprops.setSpeechVolumeText('Normal');
+      roomprops.setSpeechDurationinTime('25%');
     } else if (selectedId == 'Choir') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(5.32);
@@ -57,6 +75,12 @@ function RoomProperties({roomprops}) {
       roomprops.setCeilingHeight(4);
       roomprops.setDurationofStay(3);
       roomprops.setNoOfPeople(25);
+      roomprops.setMaskTypeI('No Mask');
+      roomprops.setMaskTypeN('No Mask');
+      roomprops.setMaskCategoryPpl('None');
+      roomprops.setVentilationType('Window Closed');
+      roomprops.setSpeechVolumeText('Yelling');
+      roomprops.setSpeechDurationinTime('60%');
     } else if (selectedId == 'Supermarket') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(3);
@@ -68,12 +92,19 @@ function RoomProperties({roomprops}) {
       roomprops.setCeilingHeight(4.5);
       roomprops.setDurationofStay(1);
       roomprops.setNoOfPeople(10);
+      roomprops.setMaskTypeI('No Mask');
+      roomprops.setMaskTypeN('No Mask');
+      roomprops.setMaskCategoryPpl('None');
+      roomprops.setVentilationType('Ventilation System');
+      roomprops.setSpeechVolumeText('Loud');
+      roomprops.setSpeechDurationinTime('5%');
     }
   }
-  const selectedVentilation = (value, window, id) => {
+  const selectedVentilation = (value, window, id, ventilationType) => {
     roomprops.setVentilation(value);
     setBgColor(window);
     setBg({colorId: id});
+    roomprops.setVentilationType(ventilationType);
   };
   const selectedCeilingHeight = (value, ceilingHeight, id) => {
     roomprops.setCeilingHeight(value);
@@ -291,7 +322,9 @@ function RoomProperties({roomprops}) {
             <View style={styles.cardrow}>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedVentilation(0.35, 'window', 1)}
+                  onPress={() =>
+                    selectedVentilation(0.35, 'window', 1, 'Window Closed')
+                  }
                   style={bg.colorId === 1 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/window_closed.png')}
@@ -302,7 +335,9 @@ function RoomProperties({roomprops}) {
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedVentilation(1, 'window', 2)}
+                  onPress={() =>
+                    selectedVentilation(1, 'window', 2, 'Cracked Open')
+                  }
                   style={bg.colorId === 2 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/window_crackedopen.png')}
@@ -314,7 +349,9 @@ function RoomProperties({roomprops}) {
 
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedVentilation(2.0, 'window', 3)}
+                  onPress={() =>
+                    selectedVentilation(2.0, 'window', 3, 'Full Open')
+                  }
                   style={bg.colorId === 3 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/window_fullopen.png')}
@@ -326,7 +363,9 @@ function RoomProperties({roomprops}) {
 
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedVentilation(6.0, 'window', 4)}
+                  onPress={() =>
+                    selectedVentilation(6.0, 'window', 4, 'Ventilation System')
+                  }
                   style={bg.colorId === 4 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/ventilation.png')}

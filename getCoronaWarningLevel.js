@@ -32,10 +32,10 @@ export default function getWarningLevelDataAPI() {
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorDate, setError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date('2021-10-28'));
+  const [selectedDate, setSelectedDate] = useState(new Date('2022-02-17'));
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
-    useState('2021-10-28');
+    useState('2022-02-17');
   const getWarnLevelDates = async () => {
     try {
       const response = await fetch(
@@ -198,13 +198,13 @@ export default function getWarningLevelDataAPI() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <StatusBar
+        {/* <StatusBar
           animated={true}
           backgroundColor="#d78700"
           barStyle={'light-content'}
           showHideTransition={'fade'}
           hidden={true}
-        />
+        /> */}
         <View style={{paddingTop: 1}}>
           <Header
             backgroundColor="#d78700"

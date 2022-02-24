@@ -13,7 +13,8 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import dataOverview from './Screen1Overview';
+//import dataOverview from './Screen1Overview';
+import {OverviewStackNavigator} from './stack1Navigation';
 import topTabBarCharts from './topTabBar';
 import getWarningLevelDataAPI from './getCoronaWarningLevel';
 import {MainStackNavigator} from './stackNavigation';
@@ -30,7 +31,7 @@ function MyTabs() {
       barStyle={{backgroundColor: '#694fad'}}>
       <Tab.Screen
         name="Overview"
-        component={dataOverview}
+        component={OverviewStackNavigator}
         options={{
           tabBarLabel: 'Overview',
           tabBarColor: '#005fff',

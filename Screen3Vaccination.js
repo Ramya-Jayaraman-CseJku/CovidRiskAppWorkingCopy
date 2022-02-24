@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+/* import React, {useState, useEffect} from 'react';
 
 import {
   ScrollView,
@@ -60,9 +60,9 @@ export default function getFullyVaccinatedCountAPI() {
 
   const ddvalues = dropdownvales['States'];
 
-  /* const encodedDistrict = encodeURIComponent(selectedStateName);
+  const encodedDistrict = encodeURIComponent(selectedStateName);
   const encodedYear = encodeURIComponent(year);
-  const encodedInterval = encodeURIComponent(interval); */
+  const encodedInterval = encodeURIComponent(interval); 
   //brush and zoomDomain
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
   const [selectedDomain, setSelectedDomain] = useState();
@@ -140,11 +140,7 @@ export default function getFullyVaccinatedCountAPI() {
       data={countryWiseVaccCount}
       x={'Interval'}
       y={'Vollimmunisierte'}
-      /*  style={{
-              data: {stroke: 'teal', strokeWidth: 3},
-              parent: {border: '1px solid #ccc'},
-            }} 
-            interpolation="catmullRom"*/
+     
     />
   );
   if (loading)
@@ -242,7 +238,7 @@ export default function getFullyVaccinatedCountAPI() {
         <VictoryChart
           theme={VictoryTheme.material}
           width={400}
-          height={490}
+          height={500}
           domainPadding={{x: [2, 15]}}
           padding={{top: 60, left: 60, right: 30, bottom: 70}}
           containerComponent={
@@ -252,8 +248,7 @@ export default function getFullyVaccinatedCountAPI() {
               responsive={false}
               zoomDimension="x"
               minimumZoom={{x: 3, y: 0.01}}
-              /* zoomDomain={zoomDomain}
-              onZoomDomainChange={handleZoom} */
+            
               labels={({datum}) =>
                 `vaccinated: ${Math.round(datum.Vollimmunisierte) / 1000000}M`
               }
@@ -276,7 +271,7 @@ export default function getFullyVaccinatedCountAPI() {
           <VictoryAxis
             independentAxis
             fixLabelOverlap={true}
-            tickLabelComponent={<VictoryLabel angle={-45} y={448} />}
+            tickLabelComponent={<VictoryLabel angle={-45} y={448} dy={10} />}
             style={{
               axis: {stroke: 'black'},
               ticks: {stroke: 'black'},
@@ -298,9 +293,8 @@ export default function getFullyVaccinatedCountAPI() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     paddingTop: 3,
-    backgroundColor: '#eeeeee',
+    //backgroundColor: '#eeeeee',
   },
   row1: {
     flexDirection: 'row',
@@ -427,3 +421,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+ */

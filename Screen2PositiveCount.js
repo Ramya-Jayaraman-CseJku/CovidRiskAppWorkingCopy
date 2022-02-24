@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Modal,
   StatusBar,
+  Linking,
 } from 'react-native';
 import * as dropdownvales from './dropDownValues.json';
 
@@ -35,7 +36,7 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 const STYLES = ['default', 'dark-content', 'light-content'];
 const TRANSITIONS = ['fade', 'slide', 'none'];
 
-export default function getPositiveCasesCountAPI() {
+export default function getPositiveCasesCountAPI({navigation}) {
   const [hidden, setHidden] = useState(false);
   const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
   const [statusBarTransition, setStatusBarTransition] = useState(
@@ -76,7 +77,11 @@ export default function getPositiveCasesCountAPI() {
   };
 
   const ddvalues = dropdownvales['Districts'];
-
+  const positiveCases = () => {
+    Linking.openURL(
+      'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
+    );
+  };
   /* const encodedDistrict = encodeURIComponent(selectedDistrictName);
   const encodedYear = encodeURIComponent(year);
   const encodedInterval = encodeURIComponent(interval); */
@@ -168,7 +173,7 @@ export default function getPositiveCasesCountAPI() {
       x={'Interval'}
       y={'AnzahlFaelle'}
       style={{
-        data: {stroke: '#00A2EB', strokeWidth: 3},
+        data: {stroke: '#FF5733', strokeWidth: 3},
         parent: {border: '1px solid #ccc'},
       }}
       interpolation="catmullRom"
@@ -186,153 +191,155 @@ export default function getPositiveCasesCountAPI() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisiblePlaces}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisiblePlaces(!modalVisiblePlaces);
-            }}>
-            <View style={styles.centeredView1}>
-              <View style={styles.modalView}>
-                <TextInput
-                  style={styles.textInput}
-                  onChangeText={text => searchData(text)}
-                  value={query}
-                  underlineColorAndroid="transparent"
-                  placeholder="Search for a city"
-                  placeholderTextColor="black"
-                />
+        <ScrollView>
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisiblePlaces}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+                setModalVisiblePlaces(!modalVisiblePlaces);
+              }}>
+              <View style={styles.centeredView1}>
+                <View style={styles.modalView}>
+                  <TextInput
+                    style={styles.textInput}
+                    onChangeText={text => searchData(text)}
+                    value={query}
+                    underlineColorAndroid="transparent"
+                    placeholder="Search for a city"
+                    placeholderTextColor="black"
+                  />
 
-                <FlatList
-                  data={state.data}
-                  keyExtractor={item => item.id.toString()}
-                  ItemSeparatorComponent={itemSeparator}
-                  initialNumToRender={5}
-                  renderItem={renderItem}
-                  style={{marginTop: 10}}
-                />
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisiblePlaces(!modalVisiblePlaces)}>
-                  <Text style={styles.ModalButtontextStyle}>Close</Text>
-                </Pressable>
+                  <FlatList
+                    data={state.data}
+                    keyExtractor={item => item.id.toString()}
+                    ItemSeparatorComponent={itemSeparator}
+                    initialNumToRender={5}
+                    renderItem={renderItem}
+                    style={{marginTop: 10}}
+                  />
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisiblePlaces(!modalVisiblePlaces)}>
+                    <Text style={styles.ModalButtontextStyle}>Close</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+
+            <View style={styles.row1}>
+              <View>
+                <Text style={styles.heading}>
+                  COVID-19 Positive Cases Count {'\n'}
+                </Text>
               </View>
             </View>
-          </Modal>
-
-          <View style={styles.row1}>
-            <View>
-              <Text style={styles.heading}>
-                COVID-19 Positive Cases Count {'\n'}
-              </Text>
-            </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            textAlign: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={styles.textStyle}
-            onPress={() => setModalVisiblePlaces(true)}>
-            {selectedDistrict}
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={styles.textStyle}
+              onPress={() => setModalVisiblePlaces(true)}>
+              {selectedDistrict}
+            </Text>
 
-          <Menu
-            visible={visible}
-            onRequestClose={hideMenu}
-            anchor={
-              <Text style={styles.textStyle} onPress={showMenu}>
-                {selectedInterval}
-              </Text>
-            }>
-            <MenuItem
-              onPress={() => getSelectedInterval('Daily')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Daily Count
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Weekly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Week
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Monthly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Month
-            </MenuItem>
-            <MenuItem
-              onPress={() => getSelectedInterval('Yearly')}
-              textStyle={{color: 'black'}}
-              pressColor="#0597D8">
-              Group By Year
-            </MenuItem>
-          </Menu>
-        </View>
+            <Menu
+              visible={visible}
+              onRequestClose={hideMenu}
+              anchor={
+                <Text style={styles.textStyle} onPress={showMenu}>
+                  {selectedInterval}
+                </Text>
+              }>
+              <MenuItem
+                onPress={() => getSelectedInterval('Daily')}
+                textStyle={{color: 'black'}}
+                pressColor="#0597D8">
+                Daily Count
+              </MenuItem>
+              <MenuItem
+                onPress={() => getSelectedInterval('Weekly')}
+                textStyle={{color: 'black'}}
+                pressColor="#0597D8">
+                Group By Week
+              </MenuItem>
+              <MenuItem
+                onPress={() => getSelectedInterval('Monthly')}
+                textStyle={{color: 'black'}}
+                pressColor="#0597D8">
+                Group By Month
+              </MenuItem>
+              <MenuItem
+                onPress={() => getSelectedInterval('Yearly')}
+                textStyle={{color: 'black'}}
+                pressColor="#0597D8">
+                Group By Year
+              </MenuItem>
+            </Menu>
+          </View>
 
-        <VictoryChart
-          theme={VictoryTheme.material}
-          width={380}
-          height={550}
-          domainPadding={{x: [2, 20]}}
-          padding={{top: 100, left: 60, right: 30, bottom: 60}}
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-              allowPan={true}
-              allowZoom={true}
-              responsive={false}
-              zoomDimension="x"
-              minimumZoom={{x: 4, y: 0.01}}
-              /* zoomDomain={zoomDomain}
+          <VictoryChart
+            theme={VictoryTheme.material}
+            width={400}
+            height={500}
+            domainPadding={{x: [2, 20], y: [0, 20]}}
+            padding={{top: 100, left: 75, right: 30, bottom: 60}}
+            containerComponent={
+              <VictoryZoomVoronoiContainer
+                allowPan={true}
+                allowZoom={true}
+                responsive={false}
+                zoomDimension="x"
+                minimumZoom={{x: 4, y: 0.01}}
+                /* zoomDomain={zoomDomain}
               onZoomDomainChange={handleZoom} */
-              labels={({datum}) => `cases:${datum.AnzahlFaelle}`}
+                labels={({datum}) => `cases:${datum.AnzahlFaelle}`}
+              />
+            }>
+            <VictoryAxis
+              dependentAxis
+              fixLabelOverlap={true}
+              tickValues={districtWisePositiveCases.Interval}
+              style={{
+                axis: {stroke: 'black'},
+                ticks: {stroke: 'black'},
+
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+                grid: {
+                  stroke: 'transparent',
+                },
+              }}
             />
-          }>
-          <VictoryAxis
-            dependentAxis
-            fixLabelOverlap={true}
-            tickValues={districtWisePositiveCases.Interval}
-            style={{
-              axis: {stroke: 'black'},
-              ticks: {stroke: 'black'},
+            <VictoryAxis
+              fixLabelOverlap={true}
+              independentAxis
+              tickLabelComponent={<VictoryLabel angle={-19} y={450} dy={10} />}
+              style={{
+                axis: {stroke: 'black'},
+                ticks: {stroke: 'black'},
 
-              tickLabels: {
-                fill: 'black',
-                fontSize: 13,
-              },
-              grid: {
-                stroke: 'transparent',
-              },
-            }}
-          />
-          <VictoryAxis
-            fixLabelOverlap={true}
-            independentAxis
-            tickLabelComponent={<VictoryLabel angle={-19} y={460} dy={60} />}
-            style={{
-              axis: {stroke: 'black'},
-              ticks: {stroke: 'black'},
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+                grid: {
+                  stroke: 'transparent',
+                },
+              }}
+            />
 
-              tickLabels: {
-                fill: 'black',
-                fontSize: 13,
-              },
-              grid: {
-                stroke: 'transparent',
-              },
-            }}
-          />
-
-          {MyChart}
-        </VictoryChart>
+            {MyChart}
+          </VictoryChart>
+        </ScrollView>
       </View>
     </SafeAreaProvider>
   );
@@ -398,8 +405,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F93C2D',
   }, */
   textStyle: {
-    fontSize: 15,
-    color: '#0597D8',
+    fontSize: 16,
+    //color: '#0597D8',
+    color: '#FF5733',
     fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',
@@ -425,16 +433,29 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  headerHeading: {
+    fontSize: 16,
+    color: '#white',
+
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  headerRight: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 5,
+  },
   heading: {
     fontSize: 16,
-    color: '#0597D8',
+    color: '#FF5733',
+    //color: '#0597D8',
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 20,
   },
   subHeading: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 17,
     color: 'black',
     fontWeight: 'bold',
   },

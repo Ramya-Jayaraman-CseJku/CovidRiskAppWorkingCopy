@@ -57,16 +57,26 @@ function BehavioralProperties({todos}) {
       setShowVaccine(false);
     }
   };
-  function setMaskEfficiencyPeople(selectedPeopleCategory, maskEff, id, mask) {
+  function setMaskEfficiencyPeople(
+    selectedPeopleCategory,
+    maskEff,
+    id,
+    mask,
+    maskType,
+  ) {
     setBgColor(mask);
     setBg({colorId: id});
     if (selectedPeopleCategory == 'Infected') {
       todos.setMaskEfficiencyI(maskEff);
+      todos.setMaskTypeI(maskType);
     } else if (selectedPeopleCategory == 'Normal') {
       todos.setMaskEfficiencyN(maskEff);
+      todos.setMaskTypeN(maskType);
     } else if (selectedPeopleCategory == 'Infected and Normal') {
       todos.setMaskEfficiencyI(maskEff);
       todos.setMaskEfficiencyN(maskEff);
+      todos.setMaskTypeI(maskType);
+      todos.setMaskTypeN(maskType);
     }
   }
   return (
@@ -191,6 +201,7 @@ function BehavioralProperties({todos}) {
                       0.7,
                       1,
                       'mask',
+                      'FFP2',
                     )
                   }
                   style={bg.colorId === 1 ? styles.red : styles.defaultBg}>
@@ -209,6 +220,7 @@ function BehavioralProperties({todos}) {
                       0.5,
                       2,
                       'mask',
+                      'Surgical',
                     )
                   }
                   style={bg.colorId === 2 ? styles.red : styles.defaultBg}>
@@ -227,6 +239,7 @@ function BehavioralProperties({todos}) {
                       0.2,
                       3,
                       'mask',
+                      'Cloth',
                     )
                   }
                   style={bg.colorId === 3 ? styles.red : styles.defaultBg}>
@@ -245,6 +258,7 @@ function BehavioralProperties({todos}) {
                       0,
                       4,
                       'mask',
+                      'No Mask',
                     )
                   }
                   style={bg.colorId === 4 ? styles.red : styles.defaultBg}>

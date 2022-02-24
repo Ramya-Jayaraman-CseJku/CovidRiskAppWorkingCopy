@@ -12,6 +12,7 @@ import {
   Modal,
   Dimensions,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import {
   VictoryBar,
@@ -31,6 +32,7 @@ import {
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import * as dropdownvales from './municipalities.json';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+import {Button, Header, Icon} from 'react-native-elements';
 
 export default function getFullyVaccinatedCountAPI() {
   const [visible, setVisible] = useState(false);
@@ -142,7 +144,7 @@ export default function getFullyVaccinatedCountAPI() {
       y={'Dose'}
       labels={({datum}) => `${datum.Dose}`}
       style={{
-        data: {stroke: 'green', strokeWidth: 3, fill: '#00A2EB'},
+        data: {stroke: 'green', strokeWidth: 3, fill: '#2CB083'},
         parent: {border: '7px solid #ccc'},
       }}
     />
@@ -156,112 +158,114 @@ export default function getFullyVaccinatedCountAPI() {
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
-        <View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={styles.centeredView1}>
-              <View style={styles.modalView}>
-                <TextInput
-                  style={styles.textInput}
-                  onChangeText={text => searchData(text)}
-                  value={query}
-                  underlineColorAndroid="transparent"
-                  placeholder="Search for a district"
-                  placeholderTextColor="black"
-                />
+        <ScrollView>
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={styles.centeredView1}>
+                <View style={styles.modalView}>
+                  <TextInput
+                    style={styles.textInput}
+                    onChangeText={text => searchData(text)}
+                    value={query}
+                    underlineColorAndroid="transparent"
+                    placeholder="Search for a district"
+                    placeholderTextColor="black"
+                  />
 
-                <FlatList
-                  data={state.data}
-                  keyExtractor={(item, id) => id.toString()}
-                  ItemSeparatorComponent={itemSeparator}
-                  initialNumToRender={5}
-                  renderItem={renderItem}
-                  style={{marginTop: 10}}
-                />
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.ModalButtontextStyle}>Close</Text>
-                </Pressable>
+                  <FlatList
+                    data={state.data}
+                    keyExtractor={(item, id) => id.toString()}
+                    ItemSeparatorComponent={itemSeparator}
+                    initialNumToRender={5}
+                    renderItem={renderItem}
+                    style={{marginTop: 10}}
+                  />
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles.ModalButtontextStyle}>Close</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            <View style={styles.row1}>
+              <View>
+                <Text style={styles.heading}>
+                  {' '}
+                  Vaccinated Count - District {'\n'}
+                </Text>
               </View>
             </View>
-          </Modal>
-          <View style={styles.row1}>
-            <View>
-              <Text style={styles.heading}>
-                {' '}
-                Vaccinated Count - District {'\n'}
-              </Text>
-            </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            textAlign: 'center',
-            justifyContent: 'center',
-          }}>
-          <Pressable onPress={() => setModalVisible(true)}>
-            <Text style={styles.textStyle}>{selectedDistrictName} </Text>
-          </Pressable>
+          <View
+            style={{
+              flexDirection: 'row',
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}>
+            <Pressable onPress={() => setModalVisible(true)}>
+              <Text style={styles.textStyle}>{selectedDistrictName} </Text>
+            </Pressable>
 
-          <Text style={styles.textStyle}>
-            Population: {districtWiseVaccCount[0].municipality_population}
-          </Text>
+            <Text style={styles.textStyle}>
+              Population: {districtWiseVaccCount[0].municipality_population}
+            </Text>
+          </View>
+
+          <VictoryChart
+            theme={VictoryTheme.material}
+            width={400}
+            height={500}
+            domainPadding={{x: [40, 40]}}
+            padding={{top: 60, left: 75, right: 40, bottom: 70}}>
+            <VictoryAxis
+              dependentAxis
+              fixLabelOverlap={true}
+              tickValues={districtWiseVaccCount['Type']}
+              style={{
+                axis: {stroke: 'black', size: 8},
+                ticks: {stroke: 'black'},
+
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+                grid: {
+                  stroke: 'transparent',
+                },
+              }}
+            />
+            <VictoryAxis
+              fixLabelOverlap={true}
+              independentAxis
+              tickLabelComponent={<VictoryLabel y={460} dy={8} />}
+              style={{
+                axis: {stroke: 'black', size: 8},
+                ticks: {stroke: 'black'},
+
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+                grid: {
+                  stroke: 'transparent',
+                  size: 7,
+                },
+              }}
+            />
+
+            {MyChart}
+          </VictoryChart>
           <Text style={styles.textStyle}>
             Date: {districtWiseVaccCount[0].Interval}
           </Text>
-        </View>
-
-        <VictoryChart
-          theme={VictoryTheme.material}
-          width={400}
-          height={550}
-          domainPadding={{x: [40, 40]}}
-          padding={{top: 60, left: 75, right: 40, bottom: 70}}>
-          <VictoryAxis
-            dependentAxis
-            fixLabelOverlap={true}
-            tickValues={districtWiseVaccCount['Type']}
-            style={{
-              axis: {stroke: 'black', size: 7},
-              ticks: {stroke: 'black'},
-
-              tickLabels: {
-                fill: 'black',
-                fontSize: 14,
-              },
-              grid: {
-                stroke: 'transparent',
-              },
-            }}
-          />
-          <VictoryAxis
-            fixLabelOverlap={true}
-            independentAxis
-            tickLabelComponent={<VictoryLabel y={460} dy={60} />}
-            style={{
-              axis: {stroke: 'black', size: 7},
-              ticks: {stroke: 'black'},
-
-              tickLabels: {
-                fill: 'black',
-                fontSize: 14,
-              },
-              grid: {
-                stroke: 'transparent',
-                size: 7,
-              },
-            }}
-          />
-
-          {MyChart}
-        </VictoryChart>
+        </ScrollView>
       </View>
     </SafeAreaProvider>
   );
@@ -272,7 +276,7 @@ const styles = StyleSheet.create({
     flex: 1,
 
     paddingTop: 3,
-    backgroundColor: '#eeeeee',
+    //backgroundColor: '#eeeeee',
   },
   row1: {
     flexDirection: 'row',
@@ -342,8 +346,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F93C2D',
   },
   textStyle: {
-    fontSize: 15,
-    color: '#0597D8',
+    fontSize: 16,
+    color: 'green',
+    //color: '#0597D8',
     fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',
@@ -367,7 +372,8 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 16,
-    color: '#0597D8',
+    //color: '#0597D8',
+    color: 'green',
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 20,

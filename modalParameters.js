@@ -9,10 +9,13 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
+import {SearchBar, Card, Header} from 'react-native-elements';
 import BehavioralProperties from './BehavioralProperties';
 import RoomProperties from './RoomProperties';
 import InfectedPersonProperties from './InfectedPersonProperties';
 import ModalParameters from './data';
+import RiskInfoandSimulation from './riskInfectionCalculation';
+
 import RNCarousalCard from './rnCarousal';
 const STYLES = ['default', 'dark-content', 'light-content'];
 const TRANSITIONS = ['fade', 'slide', 'none'];
@@ -25,21 +28,26 @@ export default function ModelParamSelection({navigation}) {
     TRANSITIONS[2],
   );
   //behavior
-  const [maskCateogoryPpl, setMaskCategoryPpl] = useState(0);
+  const [maskCateogoryPpl, setMaskCategoryPpl] = useState('None');
   const [maskEfficiencyI, setMaskEfficiencyI] = useState(0);
   const [maskEfficiencyN, setMaskEfficiencyN] = useState(0);
+  const [maskTypeI, setMaskTypeI] = useState('None');
+  const [maskTypeN, setMaskTypeN] = useState('None');
   const [vaccination, setVaccination] = useState('None');
   //room
-  const [eventType, setEventType] = useState(0);
-  const [roomSize, setRoomSize] = useState(10);
-  const [durationofStay, setDurationofStay] = useState(1);
-  const [noOfPeople, setNoOfPeople] = useState(2);
-  const [ventilation, setVentilation] = useState(0);
-  const [ceilingHeight, setCeilingHeight] = useState(2.2);
+  const [eventType, setEventType] = useState('Classroom');
+  const [roomSize, setRoomSize] = useState(60);
+  const [durationofStay, setDurationofStay] = useState(12);
+  const [noOfPeople, setNoOfPeople] = useState(24);
+  const [ventilation, setVentilation] = useState(0.35);
+  const [ventilationType, setVentilationType] = useState('None');
+  const [ceilingHeight, setCeilingHeight] = useState(3);
   //infected person
-  const [speechVolume, setSpeechVolume] = useState(0);
-  const [speechDuration, setSpeechDuration] = useState(0);
-
+  const [speechVolume, setSpeechVolume] = useState(2);
+  const [speechDuration, setSpeechDuration] = useState(10);
+  //modal parameters text
+  const [speechDurationinTime, setSpeechDurationinTime] = useState('None');
+  const [speechVolumeText, setSpeechVolumeText] = useState('None');
   const behavioralProps = {
     maskCateogoryPpl,
     maskEfficiencyI,
@@ -53,6 +61,11 @@ export default function ModelParamSelection({navigation}) {
     ceilingHeight,
     speechVolume,
     speechDuration,
+    maskTypeI,
+    maskTypeN,
+    ventilationType,
+    speechDurationinTime,
+    speechVolumeText,
     setMaskCategoryPpl,
     setMaskEfficiencyI,
     setMaskEfficiencyN,
@@ -65,6 +78,11 @@ export default function ModelParamSelection({navigation}) {
     setCeilingHeight,
     setSpeechVolume,
     setSpeechDuration,
+    setMaskTypeI,
+    setMaskTypeN,
+    setVentilationType,
+    setSpeechDurationinTime,
+    setSpeechVolumeText,
   };
   /* console.log({selectedEventType});
   console.log({maskCateogoryPpl});
@@ -82,10 +100,21 @@ export default function ModelParamSelection({navigation}) {
     <View styles={styles.container}>
       <ScrollView>
         <>
+          {/*  <Header
+            backgroundColor="#005fff"
+            rightComponent={
+              <View style={styles.headerRight}>
+                <TouchableOpacity onPress={positiveCases}>
+                  <Icon name="description" color="white" />
+                </TouchableOpacity>
+              </View>
+            }
+          /> */}
           <BehavioralProperties todos={behavioralProps} />
           <RoomProperties roomprops={behavioralProps} />
           <InfectedPersonProperties infectedpplprops={behavioralProps} />
           <ModalParameters todos={behavioralProps} />
+          {/* <RiskInfoandSimulation todos={behavioralProps} /> */}
         </>
         <View style={styles.buttonStyle}>
           <Button
@@ -115,6 +144,12 @@ export default function ModelParamSelection({navigation}) {
                 speechDuration: speechDuration,
 
                 speechVolume: speechVolume,
+                //model parameters text
+                maskTypeI: maskTypeI,
+                maskTypeN: maskTypeN,
+                ventilationType: ventilationType,
+                speechDurationinTime: speechDurationinTime,
+                speechVolumeText: speechVolumeText,
               });
             }}
           />
@@ -127,6 +162,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 5,
+    backgroundColor: '#DAE1DE',
   },
 
   dropdown: {

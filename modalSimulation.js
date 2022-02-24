@@ -32,6 +32,11 @@ export default function Simulation({route}) {
     ceilingHeight,
     speechDuration,
     speechVolume,
+    maskTypeI,
+    maskTypeN,
+    ventilationType,
+    speechDurationinTime,
+    speechVolumeText,
   } = route.params;
 
   const [selectedId, setSelectedId] = useState(null);
@@ -162,7 +167,7 @@ export default function Simulation({route}) {
               <View>
                 <TouchableOpacity onPress={() => setModalVisibleED(true)}>
                   <View style={styles.modalProps}>
-                    <Text style={styles.headerText}>Event </Text>
+                    <Text style={styles.headerText}>Behavior </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -190,12 +195,9 @@ export default function Simulation({route}) {
                         Characteristics of infected person
                       </Text>
                       <Text style={styles.modalProperties}>
-                        Speech volume - {speechVolume}
+                        Speech volume - {speechVolumeText}
                         {'\n'}
-                        Mask efficiency - {maskEfficiencyInfected}
-                        {'\n'}
-                        Speech Duration - {speechDuration} {'\n'}
-                        Respiratory volume - 10
+                        Speech duration - {speechDurationinTime} {'\n'}
                       </Text>
                     </View>
                   </Text>
@@ -230,11 +232,15 @@ export default function Simulation({route}) {
                         Room properties
                       </Text>
                       <Text style={styles.modalProperties}>
-                        Ventilation - {ventilation}
+                        Room size - {roomSize + ' ' + 'sq.m'}
                         {'\n'}
-                        Room size - {roomSize}
+                        Duration of stay - {durationOfStay}
                         {'\n'}
-                        Ceiling Height - {ceilingHeight}
+                        Number of people - {noOfPeople}
+                        {'\n'}
+                        Ventilation - {ventilationType}
+                        {'\n'}
+                        Ceiling height - {ceilingHeight + ' ' + 'm'}
                       </Text>
                     </View>
                   </Text>
@@ -266,16 +272,14 @@ export default function Simulation({route}) {
                       </View>
 
                       <Text style={styles.modalPropertiesHeading}>
-                        Event details
+                        Behavioral Properties
                       </Text>
 
                       <Text style={styles.modalProperties}>
-                        Duration of stay - {durationOfStay}
+                        Mask type of normal person - {maskTypeI}
                         {'\n'}
-                        Mask efficiency of normal person -{' '}
-                        {maskEfficiencyNormal}
+                        Mask type of infected person - {maskTypeN}
                         {'\n'}
-                        Number of people - {noOfPeople}
                       </Text>
                     </View>
                   </Text>
@@ -482,6 +486,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     paddingTop: 35,
+    marginBottom: 10,
     padding: 20,
     alignItems: 'center',
     shadowColor: '#000',
@@ -494,7 +499,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    marginTop: 15,
+    marginTop: 28,
     borderRadius: 10,
     padding: 10,
     elevation: 2,

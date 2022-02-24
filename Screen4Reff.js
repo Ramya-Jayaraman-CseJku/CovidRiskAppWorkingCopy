@@ -7,6 +7,8 @@ import {
   Pressable,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
+  Linking,
 } from 'react-native';
 
 import {
@@ -22,7 +24,7 @@ import {
   createContainer,
   VictoryLabel,
 } from 'victory-native';
-import {Icon, Card} from 'react-native-elements';
+import {Header, Icon, Card} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -87,86 +89,74 @@ export default function getReffectiveValue() {
 
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
-        <View>
-          <View style={styles.row1}>
-            <Text style={styles.heading}>R_Effective_Value {'\n'}</Text>
-            <TouchableOpacity onPress={toggleRiskInfo}>
-              <Icon
-                name="information"
-                type="material-community"
-                color="#ED471C"
-              />
-            </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.container}>
+          <View>
+            <View style={styles.row1}>
+              <Text style={styles.heading}>R_Effective_Value {'\n'}</Text>
+              <TouchableOpacity onPress={toggleRiskInfo}>
+                <Icon
+                  name="information"
+                  type="material-community"
+                  color="#ED471C"
+                />
+              </TouchableOpacity>
+            </View>
+            {riskInfo()}
           </View>
-          {riskInfo()}
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            textAlign: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: '#0597D8',
-              marginTop: 3,
-            }}>
-            Austria Daily View
-          </Text>
-        </View>
+          <View>
+            <Text style={styles.textStyle}>Austria Daily View</Text>
+          </View>
 
-        <VictoryChart
-          theme={VictoryTheme.material}
-          width={390}
-          height={470}
-          domainPadding={{x: [2, 15]}}
-          padding={{top: 48, left: 60, right: 30, bottom: 70}}
-          containerComponent={
-            <VictoryZoomVoronoiContainer
-              allowPan={true}
-              allowZoom={true}
-              responsive={false}
-              zoomDimension="x"
-              minimumZoom={{x: 3, y: 0.01}}
-              /*  zoomDomain={zoomDomain}
+          <VictoryChart
+            theme={VictoryTheme.material}
+            width={400}
+            height={500}
+            domainPadding={{x: [2, 15]}}
+            padding={{top: 48, left: 50, right: 30, bottom: 70}}
+            containerComponent={
+              <VictoryZoomVoronoiContainer
+                allowPan={true}
+                allowZoom={true}
+                responsive={false}
+                zoomDimension="x"
+                minimumZoom={{x: 3, y: 0.01}}
+                /*  zoomDomain={zoomDomain}
                   onZoomDomainChange={handleZoom} */
-              labels={({datum}) => `R_Eff: ${datum.R_eff}`}
+                labels={({datum}) => `R_Eff: ${datum.R_eff}`}
+              />
+            }>
+            <VictoryAxis
+              dependentAxis
+              fixLabelOverlap={true}
+              style={{
+                axis: {stroke: 'black'},
+                ticks: {stroke: 'black'},
+
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+              }}
             />
-          }>
-          <VictoryAxis
-            dependentAxis
-            fixLabelOverlap={true}
-            style={{
-              axis: {stroke: 'black'},
-              ticks: {stroke: 'black'},
+            <VictoryAxis
+              fixLabelOverlap={true}
+              independentAxis
+              tickLabelComponent={<VictoryLabel angle={-60} y={462} dy={3} />}
+              style={{
+                axis: {stroke: 'black'},
+                ticks: {stroke: 'black'},
 
-              tickLabels: {
-                fill: 'black',
-                fontSize: 13,
-              },
-            }}
-          />
-          <VictoryAxis
-            fixLabelOverlap={true}
-            independentAxis
-            tickLabelComponent={<VictoryLabel angle={-45} y={428} />}
-            style={{
-              axis: {stroke: 'black'},
-              ticks: {stroke: 'black'},
+                tickLabels: {
+                  fill: 'black',
+                  fontSize: 14,
+                },
+              }}
+            />
+            {MyChart}
+          </VictoryChart>
 
-              tickLabels: {
-                fill: 'black',
-                fontSize: 13,
-              },
-            }}
-          />
-          {MyChart}
-        </VictoryChart>
-
-        {/*  <VictoryChart
+          {/*  <VictoryChart
               domainPadding={{y: [0, 10]}}
               width={380}
               height={160}
@@ -207,7 +197,8 @@ export default function getReffectiveValue() {
                 interpolation="catmullRom"
               />
             </VictoryChart> */}
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaProvider>
   );
 }
@@ -215,7 +206,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 3,
-    backgroundColor: '#eeeeee',
+    //backgroundColor: '#eeeeee',
   },
   row1: {
     flexDirection: 'row',
@@ -239,7 +230,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 20,
     //alignItems: 'center',
@@ -275,12 +266,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
   },
   textStyle: {
-    fontSize: 15,
-    color: '#008080',
+    fontSize: 16,
     fontWeight: 'bold',
+    color: '#0597D8',
+    marginTop: 3,
+    flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'center',
-    marginLeft: 20,
   },
   sectionContainer: {
     marginTop: 32,
@@ -306,7 +298,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   subHeading: {
-    fontSize: 16,
+    fontSize: 17,
     color: '#4c70e6',
     fontWeight: 'bold',
     textAlign: 'center',

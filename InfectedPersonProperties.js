@@ -8,15 +8,46 @@ function InfectedPersonProperties({infectedpplprops}) {
   const [showSpeechTime, setShowSpeechTime] = useState(false);
   const [showSpeechVolume, setShowSpeechVolume] = useState(false);
   const [bg, setBg] = useState({colorId: 0});
-  const selectedSpeechVolume = (value, speechVolume, id) => {
+  const [speechTimeZero, setSpeechTimeZero] = useState();
+  const [speechTimeTwoFive, setSpeechTimeTwoFive] = useState();
+  const [speechTimeFifty, setSpeechTimeFifty] = useState('');
+  const [speechTimeNinety, setSpeechTimeNinety] = useState('');
+  var twofive;
+  var fifty;
+  var ninety;
+  const calculateSpeechDurationTime = durationOfStay => {
+    twofive =
+      (durationOfStay * 60 * 0.25).toFixed(2) > 59
+        ? (durationOfStay * 60 * 0.25) / 60 + ' hr'
+        : durationOfStay * 60 * 0.25 + ' min';
+    fifty =
+      (durationOfStay * 60 * 0.5).toFixed(0) > 59
+        ? (durationOfStay * 60 * 0.5) / 60 + ' hr'
+        : durationOfStay * 60 * 0.5 + ' min';
+    ninety =
+      (durationOfStay * 60 * 0.9).toFixed(2) > 59
+        ? (durationOfStay * 60 * 0.9) / 60 + ' hr'
+        : durationOfStay * 60 * 0.9 + ' min';
+  };
+
+  calculateSpeechDurationTime(infectedpplprops.durationofStay);
+
+  const selectedSpeechVolume = (value, speechVolume, id, speechVolumeText) => {
     infectedpplprops.setSpeechVolume(value);
     setBgColor(speechVolume);
     setBg({colorId: id});
+    infectedpplprops.setSpeechVolumeText(speechVolumeText);
   };
-  const selectedSpeechDuration = (value, speechTime, id) => {
+  const selectedSpeechDuration = (
+    value,
+    speechTime,
+    id,
+    speechDurationTime,
+  ) => {
     infectedpplprops.setSpeechDuration(value);
     setBgColor(speechTime);
     setBg({colorId: id});
+    infectedpplprops.setSpeechDurationinTime(speechDurationTime);
   };
 
   const [mainbg, setMainBg] = useState({
@@ -126,59 +157,44 @@ function InfectedPersonProperties({infectedpplprops}) {
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechDuration(25, 'speechTime', 2)}
+                  onPress={() =>
+                    selectedSpeechDuration(25, 'speechTime', 2, twofive)
+                  }
                   style={bg.colorId === 2 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/15mintime.png')}
                     style={styles.imgDimensionsinSubset}
                   />
                   <Text style={styles.textStyle}>{'\n'}25 %</Text>
-                  <Text style={styles.textStyle}>
-                    {(infectedpplprops.durationofStay * 60 * 0.25).toFixed(2) >
-                    59
-                      ? (infectedpplprops.durationofStay * 60 * 0.25) / 60 +
-                        ' hr'
-                      : infectedpplprops.durationofStay * 60 * 0.25 + ' min'}
-                  </Text>
-                  {/* <Text style={styles.textStyle}>1:15 hr</Text> */}
+                  <Text style={styles.textStyle}>{twofive}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechDuration(50, 'speechTime', 3)}
+                  onPress={() =>
+                    selectedSpeechDuration(50, 'speechTime', 3, fifty)
+                  }
                   style={bg.colorId === 3 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/30mintime.png')}
                     style={styles.imgDimensionsinSubset}
                   />
                   <Text style={styles.textStyle}>{'\n'}50 %</Text>
-                  <Text style={styles.textStyle}>
-                    {(infectedpplprops.durationofStay * 60 * 0.5).toFixed(0) >
-                    59
-                      ? (infectedpplprops.durationofStay * 60 * 0.5) / 60 +
-                        ' hr'
-                      : infectedpplprops.durationofStay * 60 * 0.5 + ' min'}
-                  </Text>
-                  {/* <Text style={styles.textStyle}>2:30 hr</Text> */}
+                  <Text style={styles.textStyle}>{fifty}</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechDuration(90, 'speechTime', 4)}
+                  onPress={() =>
+                    selectedSpeechDuration(90, 'speechTime', 4, ninety)
+                  }
                   style={bg.colorId === 4 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/00Time.png')}
                     style={styles.imgDimensionsinSubset}
                   />
                   <Text style={styles.textStyle}>{'\n'}90 %</Text>
-                  <Text style={styles.textStyle}>
-                    {(infectedpplprops.durationofStay * 60 * 0.9).toFixed(2) >
-                    59
-                      ? (infectedpplprops.durationofStay * 60 * 0.9) / 60 +
-                        ' hr'
-                      : infectedpplprops.durationofStay * 60 * 0.9 + ' min'}
-                  </Text>
-                  {/* <Text style={styles.textStyle}>4:30 hr</Text> */}
+                  <Text style={styles.textStyle}>{ninety}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -187,7 +203,9 @@ function InfectedPersonProperties({infectedpplprops}) {
             <View style={styles.cardrow}>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechVolume(1, 'speechVolume', 1)}
+                  onPress={() =>
+                    selectedSpeechVolume(1, 'speechVolume', 1, 'Quiet')
+                  }
                   style={bg.colorId === 1 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/volume-quiet.png')}
@@ -198,7 +216,9 @@ function InfectedPersonProperties({infectedpplprops}) {
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechVolume(2, 'speechVolume', 2)}
+                  onPress={() =>
+                    selectedSpeechVolume(2, 'speechVolume', 2, 'Normal')
+                  }
                   style={bg.colorId === 2 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/volume-low.png')}
@@ -209,7 +229,9 @@ function InfectedPersonProperties({infectedpplprops}) {
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechVolume(3, 'speechVolume', 3)}
+                  onPress={() =>
+                    selectedSpeechVolume(3, 'speechVolume', 3, 'Loud')
+                  }
                   style={bg.colorId === 3 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/volume-medium.png')}
@@ -220,7 +242,9 @@ function InfectedPersonProperties({infectedpplprops}) {
               </View>
               <View style={styles.spaceImagesinSubset}>
                 <TouchableOpacity
-                  onPress={() => selectedSpeechVolume(4, 'speechVolume', 4)}
+                  onPress={() =>
+                    selectedSpeechVolume(4, 'speechVolume', 4, 'Yelling')
+                  }
                   style={bg.colorId === 4 ? styles.red : styles.defaultBg}>
                   <Image
                     source={require('./images/volume-high.png')}

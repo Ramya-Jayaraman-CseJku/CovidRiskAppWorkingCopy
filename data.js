@@ -12,13 +12,15 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
  */
 export const SLIDER_WIDTH = 380;
-export const ITEM_WIDTH = 430;
+export const ITEM_WIDTH = 432;
 
 export default function ModalParameters({todos}) {
   const isCarousel = React.useRef(null);
   const [index, setIndex] = useState({activeIndex: 0});
 
   const maskCategory = todos.maskCateogoryPpl;
+  const maskTypeI = todos.maskTypeI;
+  const maskTypeN = todos.maskTypeN;
   const maskEffInf = todos.maskEfficiencyI;
   const maskEffNormal = todos.maskEfficiencyN;
   const vaccine = todos.vaccination;
@@ -27,10 +29,12 @@ export default function ModalParameters({todos}) {
   const duration = todos.durationofStay;
   const noOfPpl = todos.noOfPeople;
   const ventilation = todos.ventilation;
+  const ventilationType = todos.ventilationType;
   const ceilingHt = todos.ceilingHeight;
   const speechVolume = todos.speechVolume;
   const speechDuration = todos.speechDuration;
-
+  const speechDurationTime = todos.speechDurationinTime;
+  const speechVolumeText = todos.speechVolumeText;
   /*  const enabled =
     errorRoomSize.length < 1 &&
     errorDuration.length < 1 &&
@@ -42,11 +46,11 @@ export default function ModalParameters({todos}) {
         'Mask for People -' +
         maskCategory +
         '\n' +
-        'Mask Efficiency for Infected People -' +
-        maskEffInf +
+        'Mask Type for Infected People -' +
+        maskTypeI +
         '\n' +
-        'Mask Efficiency for Normal People -' +
-        maskEffNormal +
+        'Mask Type for Normal People -' +
+        maskTypeN +
         '\n' +
         'Vaccination -' +
         vaccine +
@@ -60,27 +64,33 @@ export default function ModalParameters({todos}) {
         '\n' +
         'Room size -' +
         roomSize +
+        ' ' +
+        'sq.m' +
         '\n' +
         'Duration of stay -' +
         duration +
+        ' ' +
+        'hr' +
         '\n' +
         'Number of people -' +
         noOfPpl +
         '\n' +
         'Ventilation -' +
-        ventilation +
+        ventilationType +
         '\n' +
         'Ceiling Height -' +
-        ceilingHt,
+        ceilingHt +
+        ' ' +
+        'm',
     },
     {
       title: 'Infected Person Properties',
       text:
         'Speech volume -' +
-        speechVolume +
+        speechVolumeText +
         '\n' +
         'Speech Duration -' +
-        speechDuration,
+        speechDurationTime,
       //'\n' +
       // 'Respiratory volume - 10',
     },
@@ -110,6 +120,7 @@ export default function ModalParameters({todos}) {
           useScrollView={false}
           onSnapToItem={index => setIndex({activeIndex: index})}
         />
+
         {/*   <View style={styles.buttonStyle1}>
           <Button
             disabled={false}
@@ -142,7 +153,7 @@ export default function ModalParameters({todos}) {
             }}
           />
         </View> */}
-        <View style={styles.CarousalPagination}>
+        {/*  <View style={styles.CarousalPagination}>
           <Pagination
             dotsLength={data.length}
             activeDotIndex={index.activeIndex}
@@ -159,7 +170,7 @@ export default function ModalParameters({todos}) {
             inactiveDotScale={0.6}
             tappableDots={true}
           />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -167,16 +178,16 @@ export default function ModalParameters({todos}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 8,
-    width: 340,
+
+    width: 360,
     height: 200,
     marginTop: 10,
-
+    borderRadius: 15,
     //paddingTop: 10,
     marginBottom: 10,
     //paddingBottom: 30,
-    marginLeft: 30,
-    marginRight: 90,
+    marginLeft: 18,
+    marginRight: 18,
     shadowColor: 'white',
     shadowOffset: {
       width: 1,
@@ -195,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',
-    borderRadius: 5,
+    borderRadius: 7,
     paddingTop: 10,
     paddingBottom: 10,
   },
@@ -205,13 +216,15 @@ const styles = StyleSheet.create({
     padding: 7,
     textAlign: 'left',
     paddingTop: 15,
-    paddingBottom: 15,
+    //paddingBottom: 15,
   },
   CarousalContainer: {
-    paddingTop: 80,
+    // paddingTop: 80,
+    // paddingTop: 15,
   },
   CarousalPagination: {
-    marginTop: 10,
+    //marginTop: 10,
+    // marginTop: 0,
   },
   buttonStyle1: {
     flexDirection: 'row',
