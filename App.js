@@ -93,7 +93,9 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      {/* <MyTabs /> */}
+
+      <OverviewStackNavigator />
     </NavigationContainer>
   );
 }

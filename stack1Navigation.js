@@ -12,8 +12,10 @@ import {
 import {Card, Header, HeaderProps, Icon} from 'react-native-elements';
 import {createStackNavigator} from '@react-navigation/stack';
 
-//import dataOverview from './Screen1Overview';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import DataOverview from './Screen1Overviewtrial';
+
 import getPositiveCasesCountAPI from './Screen2PositiveCount';
 import getVaccineDistricts from './Screen4VaccineDistricts';
 import getReffectiveValue from './Screen4Reff';
@@ -21,18 +23,12 @@ import getWarningLevelDataAPI from './getCoronaWarningLevel';
 import ModelParamSelection from './modal';
 
 const Stack1 = createStackNavigator();
+const positiveCases = () => {
+  Linking.openURL(
+    'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
+  );
+};
 function DataOverviewStack() {
-  /*
-    const warnLevel =
-    'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e';
-  const vaccination =
-    'https://www.data.gv.at/katalog/dataset/d230c9e8-745a-4da3-a3b4-86842591d9f0';
-  //'https://www.data.gv.at/katalog/dataset/7effe370-ce79-4286-b299-c5d851f546ff';
-  const REffective =
-    'https://www.ages.at/wissen-aktuell/publikationen/epidemiologische-parameter-des-covid19-ausbruchs-oesterreich-20202021/';
- 
-  const modalCalculation = 'https://www.mpic.de/4747361/risk-calculator';
- */
   return (
     <View style={styles.container}>
       <Stack1.Navigator
@@ -44,8 +40,8 @@ function DataOverviewStack() {
           },
           headerTintColor: '#ffffff',
           headerTitleStyle: {
-            fontSize: 17,
-            //fontWeight: 'bold',
+            fontSize: 20,
+            fontWeight: 'bold',
             textAlign: 'justify',
             alignItems: 'center',
           },
@@ -61,8 +57,8 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
-              //fontWeight: 'bold',
+              fontSize: 20,
+              fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },
@@ -79,11 +75,28 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
+              fontSize: 20,
               //fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },
+
+            /*  headerRight: () => (
+              <TouchableOpacity onPress={() => positiveCases()}>
+                <MaterialCommunityIcons
+                  name="database-check"
+                  color={'#ffffff'}
+                  size={25}
+                  style={{paddingRight: 18}}
+                /> 
+                <Icon
+                  name="information"
+                  type="material-community"
+                  color="#ffffff"
+                  style={{paddingRight: 16}}
+                />
+              </TouchableOpacity>
+            ), */
           }}
         />
         <Stack1.Screen
@@ -97,8 +110,8 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
-              //fontWeight: 'bold',
+              fontSize: 20,
+              fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },
@@ -115,8 +128,8 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
-              //fontWeight: 'bold',
+              fontSize: 20,
+              fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },
@@ -133,8 +146,8 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
-              //fontWeight: 'bold',
+              fontSize: 20,
+              fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },
@@ -151,8 +164,8 @@ function DataOverviewStack() {
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {
-              fontSize: 17,
-              //fontWeight: 'bold',
+              fontSize: 20,
+              fontWeight: 'bold',
               textAlign: 'justify',
               alignItems: 'center',
             },

@@ -1,11 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  Linking,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import {Button, Header, Icon} from 'react-native-elements';
 
 import BehavioralProperties from './BehavioralProperties';
 import RoomProperties from './RoomProperties';
 import InfectedPersonProperties from './InfectedPersonProperties';
 import ModalParameters from './data';
 import RiskInfoandSimulation from './riskInfectionCalculation';
+import Collapsible from 'react-native-collapsible';
 
 export default function ModelParamSelection() {
   //behavior
@@ -29,6 +38,31 @@ export default function ModelParamSelection() {
   //modal parameters text
   const [speechDurationinTime, setSpeechDurationinTime] = useState('None');
   const [speechVolumeText, setSpeechVolumeText] = useState('None');
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
+
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
+  };
+  function riskInfo() {
+    return (
+      <View style={styles.REffText1}>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.REffText}>
+            Click on the link below to know about datasources used in COVID-19
+            Positive Cases Count chart<Text>{'  '}</Text>
+            <Text
+              style={[styles.REffText, {color: 'blue'}]}
+              onPress={() =>
+                Linking.openURL('https://www.mpic.de/4747361/risk-calculator')
+              }>
+              link
+            </Text>
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  }
   const behavioralProps = {
     maskCateogoryPpl,
     maskEfficiencyI,
@@ -81,6 +115,20 @@ export default function ModelParamSelection() {
     <View styles={styles.container}>
       <ScrollView>
         <>
+          <View>
+            <View style={styles.row1}>
+              <Text style={styles.heading}>Modal Parameters</Text>
+              <TouchableOpacity onPress={() => toggleRiskInfo()}>
+                <Icon
+                  name="information"
+                  type="material-community"
+                  color="#9239FE"
+                  style={{paddingTop: 10, paddingLeft: 20}}
+                />
+              </TouchableOpacity>
+            </View>
+            {riskInfo()}
+          </View>
           <BehavioralProperties todos={behavioralProps} />
           <RoomProperties roomprops={behavioralProps} />
           <InfectedPersonProperties infectedpplprops={behavioralProps} />
@@ -100,5 +148,37 @@ const styles = StyleSheet.create({
 
   default: {
     color: 'black',
+  },
+  REffText: {
+    fontSize: 16,
+
+    paddingTop: 5,
+
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
+  },
+  REffText1: {
+    paddingTop: 5,
+    height: 50,
+    paddingBottom: 20,
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
+  },
+  row1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 18,
+    color: '#9239FE',
+    //color: '#0597D8',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 10,
   },
 });

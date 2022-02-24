@@ -33,6 +33,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import * as dropdownvales from './municipalities.json';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import {Button, Header, Icon} from 'react-native-elements';
+import Collapsible from 'react-native-collapsible';
 
 export default function getFullyVaccinatedCountAPI() {
   const [visible, setVisible] = useState(false);
@@ -44,7 +45,34 @@ export default function getFullyVaccinatedCountAPI() {
 
   const [state, setState] = useState({data: dropdownvales['Municipalities']});
   const [modalVisible, setModalVisible] = useState(false);
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
+  };
 
+  function riskInfo() {
+    return (
+      <View style={styles.REffText1}>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.REffText}>
+            Click on the link below to know about datasources used in Vaccinated
+            Count for Districts chart
+            <Text>{'  '}</Text>
+            <Text
+              style={[styles.REffText, {color: 'blue'}]}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.data.gv.at/katalog/dataset/d230c9e8-745a-4da3-a3b4-86842591d9f0',
+                )
+              }>
+              link
+            </Text>
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  }
   const selectedYear = 2021;
 
   const showMenu = () => setVisible(true);
@@ -194,20 +222,29 @@ export default function getFullyVaccinatedCountAPI() {
                 </View>
               </View>
             </Modal>
-            <View style={styles.row1}>
-              <View>
-                <Text style={styles.heading}>
-                  {' '}
-                  Vaccinated Count - District {'\n'}
-                </Text>
-              </View>
-            </View>
           </View>
+          <View>
+            <View style={styles.row1}>
+              <Text style={styles.heading}> Vaccinated Count - Districts</Text>
+              <TouchableOpacity onPress={() => toggleRiskInfo()}>
+                <Icon
+                  name="information"
+                  type="material-community"
+                  color="green"
+                  style={{paddingTop: 20, paddingLeft: 20}}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {riskInfo()}
+          </View>
+
           <View
             style={{
               flexDirection: 'row',
               textAlign: 'center',
               justifyContent: 'center',
+              paddingTop: 5,
             }}>
             <Pressable onPress={() => setModalVisible(true)}>
               <Text style={styles.textStyle}>{selectedDistrictName} </Text>
@@ -404,5 +441,24 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  REffText: {
+    fontSize: 16,
+
+    paddingTop: 5,
+
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
+  },
+  REffText1: {
+    paddingTop: 5,
+    height: 50,
+    paddingBottom: 20,
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
   },
 });

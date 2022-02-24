@@ -11,7 +11,7 @@ import {
 import {Card, Header} from 'react-native-elements';
 
 export default function DataOverview({navigation}) {
-  /*  const positiveCases =
+  /*  const positiveCases =Linking.Open
     'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c';
   const warnLevel =
     'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e';
@@ -133,10 +133,12 @@ export default function DataOverview({navigation}) {
           }}>
           <Card containerStyle={styles.modelCard}>
             <Card.Title style={styles.cardTitle}>
-              Model Simulation Parameters
+              Indoor Risk Infection and Simulation
             </Card.Title>
 
             <View>
+              <Text style={styles.subHeading}>Granularity:</Text>
+              <Text style={styles.textStyle}>Indoor Environments</Text>
               <Text style={styles.subHeading}>Room:</Text>
               <Text style={styles.textStyle}>
                 Size ,Ventilation and Ceiling Height
@@ -182,6 +184,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
     marginLeft: 10,
     width: 370,
+    height: 245,
     paddingTop: 6,
     paddingBottom: 15,
   },

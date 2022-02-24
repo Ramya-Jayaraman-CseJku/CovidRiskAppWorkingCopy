@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StatusBar,
+  ScrollView,
+  Linking,
 } from 'react-native';
-import {SearchBar, Card, Header} from 'react-native-elements';
+import {SearchBar, Card, Header, Icon} from 'react-native-elements';
 import MapView, {
   Marker,
   PROVIDER_GOOGLE,
@@ -29,6 +31,8 @@ export default function getWarningLevelDataAPI() {
   const [statusBarTransition, setStatusBarTransition] = useState(
     TRANSITIONS[2],
   );
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
+
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorDate, setError] = useState(false);
@@ -188,6 +192,31 @@ export default function getWarningLevelDataAPI() {
     setSelectedDate(item.Dates);
     setLoading(true);
   };
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
+  };
+  /*  function riskInfo() {
+    return (
+      <View style={styles.REffText1}>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.REffText}>
+            Click on the link below to know about datasources used in COVID-19
+            Positive Cases Count chart<Text>{'  '}</Text>
+            <Text
+              style={[styles.REffText, {color: 'blue'}]}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
+                )
+              }>
+              link
+            </Text>
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  } */
   /*  if (loading)
     return (
       <View>
@@ -197,7 +226,7 @@ export default function getWarningLevelDataAPI() {
 
   return (
     <SafeAreaProvider>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* <StatusBar
           animated={true}
           backgroundColor="#d78700"
@@ -206,7 +235,7 @@ export default function getWarningLevelDataAPI() {
           hidden={true}
         /> */}
         <View style={{paddingTop: 1}}>
-          <Header
+          {/* <Header
             backgroundColor="#d78700"
             centerComponent={{
               text: 'Corona Warning Level',
@@ -216,16 +245,36 @@ export default function getWarningLevelDataAPI() {
               textColor: '#fff',
               fontWeight: 'bold',
             }}
-          />
+          /> */}
         </View>
         <View
           style={{
             paddingTop: 1,
           }}>
           <Card containerStyle={styles.cardStyle1}>
-            <Card.Title style={styles.cardTitle}>
+            <View>
+              <View style={styles.row1}>
+                <Card.Title style={styles.cardTitle}>
+                  COVID-19 Risk Level Indicators
+                </Card.Title>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL(
+                      'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e',
+                    )
+                  }>
+                  <Icon
+                    name="information"
+                    type="material-community"
+                    color="#d78700"
+                    style={{marginBottom: 10, paddingLeft: 20}}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/*  <Card.Title style={styles.cardTitle}>
               COVID-19 Risk Level Indicators
-            </Card.Title>
+            </Card.Title> */}
             <VictoryLegend
               x={1}
               y={1}
@@ -285,7 +334,7 @@ export default function getWarningLevelDataAPI() {
             </View>
           ) : null}
         </View>
-        <View style={{paddingTop: 400}}>
+        <View style={{paddingTop: 445}}>
           <Card containerStyle={styles.cardStyle}>
             <Card.Title style={styles.cardTitle}>
               Corona Warning Level on - {selectedWarnLevelDate}
@@ -305,7 +354,7 @@ export default function getWarningLevelDataAPI() {
             />
           </Card>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaProvider>
   );
 }
@@ -317,8 +366,8 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    top: 70,
-    //top: 60,
+    top: 48,
+    //top: 60 || 70,
     height: 500,
   },
   itemStyle: {
@@ -391,5 +440,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
+  },
+  row1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

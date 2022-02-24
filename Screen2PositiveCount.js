@@ -33,15 +33,10 @@ import {
 import {Button, Header, Icon} from 'react-native-elements';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
-const STYLES = ['default', 'dark-content', 'light-content'];
-const TRANSITIONS = ['fade', 'slide', 'none'];
+
+import Collapsible from 'react-native-collapsible';
 
 export default function getPositiveCasesCountAPI({navigation}) {
-  const [hidden, setHidden] = useState(false);
-  const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
-  const [statusBarTransition, setStatusBarTransition] = useState(
-    TRANSITIONS[2],
-  );
   const [visible, setVisible] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [selectedYear, setSelectedYear] = useState('2021');
@@ -57,7 +52,32 @@ export default function getPositiveCasesCountAPI({navigation}) {
   const [modalVisiblePlaces, setModalVisiblePlaces] = useState(false);
   const [state, setState] = useState({data: dropdownvales['Districts']});
   const [query, setQuery] = useState('');
-
+  const [showRiskInfo, setShowRiskInfo] = useState(true);
+  const toggleRiskInfo = () => {
+    //Toggling the state of single Collapsible
+    setShowRiskInfo(!showRiskInfo);
+  };
+  function riskInfo() {
+    return (
+      <View style={styles.REffText1}>
+        <Collapsible collapsed={showRiskInfo}>
+          <Text style={styles.REffText}>
+            Click on the link below to know about datasources used in COVID-19
+            Positive Cases Count chart<Text>{'  '}</Text>
+            <Text
+              style={[styles.REffText, {color: 'blue'}]}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
+                )
+              }>
+              link
+            </Text>
+          </Text>
+        </Collapsible>
+      </View>
+    );
+  }
   const showMenu = () => setVisible(true);
   const hideMenu = () => setVisible(false);
   const showMenuYear = () => setVisibleYear(true);
@@ -228,20 +248,31 @@ export default function getPositiveCasesCountAPI({navigation}) {
                 </View>
               </View>
             </Modal>
-
-            <View style={styles.row1}>
-              <View>
-                <Text style={styles.heading}>
-                  COVID-19 Positive Cases Count {'\n'}
-                </Text>
-              </View>
-            </View>
           </View>
+
+          <View>
+            <View style={styles.row1}>
+              <Text style={styles.heading}>
+                Positive Cases Count - Districts
+              </Text>
+              <TouchableOpacity onPress={() => toggleRiskInfo()}>
+                <Icon
+                  name="information"
+                  type="material-community"
+                  color="#ED471C"
+                  style={{paddingTop: 20, paddingLeft: 20}}
+                />
+              </TouchableOpacity>
+            </View>
+            {riskInfo()}
+          </View>
+
           <View
             style={{
               flexDirection: 'row',
               textAlign: 'center',
               justifyContent: 'center',
+              paddingTop: 5,
             }}>
             <Text
               style={styles.textStyle}
@@ -527,5 +558,24 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  REffText: {
+    fontSize: 16,
+
+    paddingTop: 5,
+
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
+  },
+  REffText1: {
+    paddingTop: 5,
+    height: 50,
+    paddingBottom: 20,
+    textAlign: 'left',
+    marginLeft: 7,
+    marginRight: 5,
+    color: 'black',
   },
 });
