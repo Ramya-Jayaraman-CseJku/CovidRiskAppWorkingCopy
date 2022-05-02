@@ -33,8 +33,9 @@ import {
 import {Button, Header, Icon} from 'react-native-elements';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
-
+import {DataTable} from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
+//import {rnLocation} from './rnLocation.js';
 
 export default function getPositiveCasesCountAPI({navigation}) {
   const [visible, setVisible] = useState(false);
@@ -53,6 +54,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
   const [state, setState] = useState({data: dropdownvales['Districts']});
   const [query, setQuery] = useState('');
   const [showRiskInfo, setShowRiskInfo] = useState(true);
+  //let location = rnLocation.global.location;
   const toggleRiskInfo = () => {
     //Toggling the state of single Collapsible
     setShowRiskInfo(!showRiskInfo);
@@ -117,7 +119,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
   const getDistrictData = async () => {
     try {
       const response = await fetch(
-        `https://covid19infoapi.appspot.com/api/positivecasesbydistrict/?districtname=${selectedDistrict}&year=${selectedYear}&interval=${selectedInterval}`,
+        `https://covid19infoapi-348917.lm.r.appspot.com/api/positivecasesbydistrict/?districtname=${selectedDistrict}&year=${selectedYear}&interval=${selectedInterval}`,
       );
       const json = await response.json();
       setDistrictWisePositiveCases(json.data);
@@ -207,7 +209,66 @@ export default function getPositiveCasesCountAPI({navigation}) {
         <Text style={{textAlign: 'center'}}>Loading...</Text>
       </View>
     );
+  const TableExample = () => {
+    return (
+      <View>
+        <DataTable
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 15,
+          }}>
+          <DataTable.Header style={styles.tableHeader}>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Chart</Text>
+            </DataTable.Title>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Details</Text>
+            </DataTable.Title>
+          </DataTable.Header>
 
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              <Text style={styles.subHeading}>Granularity:</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              <Text style={styles.tabletextStyle}> District-Wise</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Update Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Daily</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Availability</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Lagging By Two Days</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Graph Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Week-Month-Year</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
+      </View>
+    );
+  };
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -265,6 +326,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
               </TouchableOpacity>
             </View>
             {riskInfo()}
+            {/* <Text>location from geocoding:{location}</Text> */}
           </View>
 
           <View
@@ -370,6 +432,9 @@ export default function getPositiveCasesCountAPI({navigation}) {
 
             {MyChart}
           </VictoryChart>
+          {/*  <View>
+            <TableExample />
+          </View> */}
         </ScrollView>
       </View>
     </SafeAreaProvider>
@@ -444,6 +509,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 20,
   },
+  tabletextStyle: {
+    fontSize: 14,
+    //color: '#0597D8',
+    color: '#FF5733',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -486,7 +560,7 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: 14,
     color: 'black',
     fontWeight: 'bold',
   },
@@ -577,5 +651,19 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     marginRight: 5,
     color: 'black',
+  },
+  tableHeader: {
+    backgroundColor: '#DCDCDC',
+    // borderWidth: 1,
+    fontSize: 14,
+    color: 'black',
+  },
+  tableBorder: {
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    paddingLeft: 15,
+    paddingRight: 20,
+    backgroundColor: '#E9E4E3',
   },
 });

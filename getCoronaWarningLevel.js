@@ -43,7 +43,7 @@ export default function getWarningLevelDataAPI() {
   const getWarnLevelDates = async () => {
     try {
       const response = await fetch(
-        `https://covid19infoapi.appspot.com/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
+        `https://covid19infoapi-348917.lm.r.appspot.com/api/warnLevelRegion/?date=${selectedWarnLevelDate}`,
       );
       const json = await response.json();
       setDistrictName(json);

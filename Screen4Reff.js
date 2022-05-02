@@ -27,7 +27,7 @@ import {
 import {Header, Icon, Card} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-
+import {DataTable} from 'react-native-paper';
 export default function getReffectiveValue() {
   const [loading, setLoading] = useState(true);
   const [rEffAustria, setREffAustria] = useState([]);
@@ -66,7 +66,7 @@ export default function getReffectiveValue() {
   const getREffectiveValue = async () => {
     try {
       const response = await fetch(
-        `https://covid19infoapi.appspot.com/api/R_eff_Austria/?interval=Daily`,
+        `https://covid19infoapi-348917.lm.r.appspot.com/api/R_eff_Austria/?interval=Daily`,
       );
       const json = await response.json();
       setREffAustria(json.data);
@@ -97,7 +97,66 @@ export default function getReffectiveValue() {
         <ActivityIndicator />
       </View>
     );
+  const TableExample = () => {
+    return (
+      <View>
+        <DataTable
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 15,
+          }}>
+          <DataTable.Header style={styles.tableHeader}>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Chart</Text>
+            </DataTable.Title>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Details</Text>
+            </DataTable.Title>
+          </DataTable.Header>
 
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              <Text style={styles.subHeading}>Granularity:</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              <Text style={styles.tabletextStyle}> Country</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Update Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Daily</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Availability</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Lagging By One Week</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Graph Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Date Wise</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
+      </View>
+    );
+  };
   return (
     <SafeAreaProvider>
       <ScrollView>
@@ -210,6 +269,9 @@ export default function getReffectiveValue() {
               />
             </VictoryChart> */}
         </View>
+        {/* <View>
+          <TableExample />
+        </View> */}
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -323,5 +385,34 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     marginRight: 5,
     color: 'black',
+  },
+  subHeading: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  tableHeader: {
+    backgroundColor: '#DCDCDC',
+    // borderWidth: 1,
+    fontSize: 14,
+    color: 'black',
+  },
+  tableBorder: {
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    paddingLeft: 15,
+    paddingRight: 20,
+    backgroundColor: '#E9E4E3',
+  },
+  tabletextStyle: {
+    fontSize: 14,
+    //color: '#0597D8',
+    color: '#0597D8',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
   },
 });

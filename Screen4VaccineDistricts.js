@@ -34,7 +34,7 @@ import * as dropdownvales from './municipalities.json';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import {Button, Header, Icon} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
-
+import {DataTable} from 'react-native-paper';
 export default function getFullyVaccinatedCountAPI() {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -46,6 +46,7 @@ export default function getFullyVaccinatedCountAPI() {
   const [state, setState] = useState({data: dropdownvales['Municipalities']});
   const [modalVisible, setModalVisible] = useState(false);
   const [showRiskInfo, setShowRiskInfo] = useState(true);
+
   const toggleRiskInfo = () => {
     //Toggling the state of single Collapsible
     setShowRiskInfo(!showRiskInfo);
@@ -107,7 +108,7 @@ export default function getFullyVaccinatedCountAPI() {
   const getVaccinationData = async () => {
     try {
       const response = await fetch(
-        `https://covid19infoapi.appspot.com/api/VaccinationDistricts/?districtname=${selectedDistrictName}`,
+        `https://covid19infoapi-348917.lm.r.appspot.com/api/VaccinationDistricts/?districtname=${selectedDistrictName}`,
       );
       const json = await response.json();
       setDistrictWiseVaccCount(json.data);
@@ -183,6 +184,66 @@ export default function getFullyVaccinatedCountAPI() {
         <ActivityIndicator />
       </View>
     );
+  const TableExample = () => {
+    return (
+      <View>
+        <DataTable
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 15,
+          }}>
+          <DataTable.Header style={styles.tableHeader}>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Chart</Text>
+            </DataTable.Title>
+            <DataTable.Title>
+              <Text style={styles.subHeading}>Details</Text>
+            </DataTable.Title>
+          </DataTable.Header>
+
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              <Text style={styles.subHeading}>Granularity:</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              <Text style={styles.tabletextStyle}> District-Wise</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Update Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Daily</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Availability</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>Lagging By Two Days</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row style={styles.tableBorder}>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.subHeading}>Graph Interval</Text>
+            </DataTable.Cell>
+            <DataTable.Cell>
+              {' '}
+              <Text style={styles.tabletextStyle}>For Specific Date</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
+      </View>
+    );
+  };
   return (
     <SafeAreaProvider>
       <View style={styles.container}>
@@ -302,6 +363,9 @@ export default function getFullyVaccinatedCountAPI() {
           <Text style={styles.textStyle}>
             Date: {districtWiseVaccCount[0].Interval}
           </Text>
+          {/*  <View>
+            <TableExample />
+          </View> */}
         </ScrollView>
       </View>
     </SafeAreaProvider>
@@ -415,12 +479,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 20,
   },
-  subHeading: {
-    textAlign: 'center',
-    fontSize: 16,
-    color: 'black',
-    fontWeight: 'bold',
-  },
+
   ModalButtontextStyle: {
     color: 'white',
     fontSize: 15,
@@ -460,5 +519,34 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     marginRight: 5,
     color: 'black',
+  },
+  subHeading: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  tableHeader: {
+    backgroundColor: '#DCDCDC',
+    // borderWidth: 1,
+    fontSize: 14,
+    color: 'black',
+  },
+  tableBorder: {
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    paddingLeft: 15,
+    paddingRight: 20,
+    backgroundColor: '#E9E4E3',
+  },
+  tabletextStyle: {
+    fontSize: 14,
+    //color: '#0597D8',
+    color: '#FF5733',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
   },
 });

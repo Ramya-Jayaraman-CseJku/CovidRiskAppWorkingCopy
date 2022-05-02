@@ -13,6 +13,7 @@ function BehavioralProperties({todos}) {
   const [showVaccine, setShowVaccine] = useState(false);
   const [showMasks, setShowMasks] = useState(false);
   const [bg, setBg] = useState({colorId: 0});
+  const [onpressed, setonpressed] = useState(false);
   const handleMaskPpl = () => setExpandMaskForPpl(!expandMaskForPpl);
   const MaskEfficiencyPeople = [
     {name: 'Infected', id: 1},
@@ -122,7 +123,11 @@ function BehavioralProperties({todos}) {
                 title={maskPpl.name}
                 onPress={() => {
                   todos.setMaskCategoryPpl(maskPpl.name);
+                  //  setonpressed(true);
                 }}
+                //theme={{colors: onpressed ? 'blue' : 'black'}}
+                // style={{color: onpressed ? 'blue' : 'black'}}
+                // titleStyle={{color: onpressed ? 'blue' : 'black'}}
               />
             ))}
           </List.Accordion>

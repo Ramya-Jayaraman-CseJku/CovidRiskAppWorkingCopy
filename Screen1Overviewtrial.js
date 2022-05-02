@@ -6,23 +6,13 @@ import {
   Text,
   View,
   Linking,
+  Image,
   TouchableOpacity,
 } from 'react-native';
 import {Card, Header} from 'react-native-elements';
 
 export default function DataOverview({navigation}) {
-  /*  const positiveCases =Linking.Open
-    'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c';
-  const warnLevel =
-    'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e';
-  const vaccination =
-    'https://www.data.gv.at/katalog/dataset/d230c9e8-745a-4da3-a3b4-86842591d9f0';
-  //'https://www.data.gv.at/katalog/dataset/7effe370-ce79-4286-b299-c5d851f546ff';
-  const REffective =
-    'https://www.ages.at/wissen-aktuell/publikationen/epidemiologische-parameter-des-covid19-ausbruchs-oesterreich-20202021/';
-
-  const modalCalculation = 'https://www.mpic.de/4747361/risk-calculator';
- */ return (
+  return (
     <ScrollView style={styles.container}>
       <View style={styles.cardRow}>
         <TouchableOpacity
@@ -30,24 +20,35 @@ export default function DataOverview({navigation}) {
             navigation.navigate('COVID-19 Positive Cases Count');
           }}>
           <Card containerStyle={styles.cardStyle}>
-            <Card.Title style={styles.cardTitle}>Positive Cases</Card.Title>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Granularity:</Text>
-              {'\n'}
-              District-Wise
-            </Text>
-            <Text style={styles.textStyle}>
+            <View style={styles.row}>
+              <View style={styles.ImageView}>
+                <Image
+                  source={require('./images/sick-boy-covid-infected.png')}
+                  style={styles.imgDimensions}
+                />
+              </View>
+              <Card.Title style={styles.cardTitle}>Positive Cases</Card.Title>
+            </View>
+
+            <View style={styles.cardRow}>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Granularity:</Text>
+                District
+              </Text>
+            </View>
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              {'\n'}Daily
-            </Text>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Availability:</Text>
-              {'\n'}Lagging By Two Days
-            </Text>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Graph Interval: </Text>
-              {'\n'}Week-Month-Year
-            </Text>
+              <Text style={styles.textStyle}>Daily</Text>
+            </View>
+
+            <Text style={styles.subHeading}>Availability:</Text>
+            <Text style={styles.textStyle}>Lagging By Two Days</Text>
+            <View style={styles.cardRow}>
+              <Text style={styles.textStyle}>
+                <Text style={styles.subHeading}>Graph Interval: </Text>
+                {'\n'}Day-Week-Month-Year
+              </Text>
+            </View>
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
@@ -55,23 +56,32 @@ export default function DataOverview({navigation}) {
             navigation.navigate('Vaccinated Count');
           }}>
           <Card containerStyle={styles.cardStyle}>
-            <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
-            <Text style={styles.textStyle}>
+            <View style={styles.row}>
+              <View style={styles.ImageView}>
+                <Image
+                  source={require('./images/covid_vaccine.png')}
+                  style={styles.imgDimensions}
+                />
+              </View>
+              <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
+            </View>
+
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Granularity:</Text>
-              {'\n'}District-Wise
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>District</Text>
+            </View>
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              {'\n'}Daily
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>Daily</Text>
+            </View>
+            <View>
               <Text style={styles.subHeading}>Availability:</Text>
-              {'\n'}Lagging By Two Days
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>Lagging By Two Days</Text>
+            </View>
+            <View>
               <Text style={styles.subHeading}>Graph Interval: </Text>
-              {'\n'}For Specific Date
-            </Text>
+              <Text style={styles.textStyle}>For Specific Date</Text>
+            </View>
           </Card>
         </TouchableOpacity>
       </View>
@@ -82,23 +92,32 @@ export default function DataOverview({navigation}) {
             navigation.navigate('REffective Value');
           }}>
           <Card containerStyle={styles.cardStyle}>
-            <Card.Title style={styles.cardTitle}>REffective</Card.Title>
-            <Text style={styles.textStyle}>
+            <View style={styles.row}>
+              <View style={styles.ImageView}>
+                <Image
+                  source={require('./images/REff_prediction.png')}
+                  style={styles.imgDimensions}
+                />
+              </View>
+              <Card.Title style={styles.cardTitle}>REffective</Card.Title>
+            </View>
+
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Granularity:</Text>
-              {'\n'}Country
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>Country</Text>
+            </View>
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              {'\n'}Daily
-            </Text>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Availability:</Text>
-              {'\n'}Lagging By One Week
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>Daily</Text>
+            </View>
+
+            <Text style={styles.subHeading}>Availability:</Text>
+            <Text style={styles.textStyle}>Lagging By One Week</Text>
+
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Graph Interval: </Text>
-              {'\n'}For Specific Date
-            </Text>
+              <Text style={styles.textStyle}>Daily</Text>
+            </View>
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
@@ -106,23 +125,33 @@ export default function DataOverview({navigation}) {
             navigation.navigate('Warning Level');
           }}>
           <Card containerStyle={styles.cardStyle}>
-            <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Granularity:</Text>
-              {'\n'}District-Wise
-            </Text>
-            <Text style={styles.textStyle}>
-              <Text style={styles.subHeading}>Update Interval:</Text>
-              {'\n'}Weekly Once
-            </Text>
-            <Text style={styles.textStyle}>
+            <View style={styles.row}>
+              <View style={styles.ImageView}>
+                <Image
+                  source={require('./images/warn_level.png')}
+                  style={styles.imgDimensions}
+                />
+              </View>
+              <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
+            </View>
+
+            <View style={styles.cardRow}>
+              <Text style={styles.subHeading}>Granularity: </Text>
+              <Text style={styles.textStyle}>District</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Text style={styles.subHeading}>Update Interval: </Text>
+
+              <Text style={styles.textStyle}>Week </Text>
+            </View>
+            <View>
               <Text style={styles.subHeading}>Availability:</Text>
-              {'\n'}For Every Week
-            </Text>
-            <Text style={styles.textStyle}>
+              <Text style={styles.textStyle}>Lagging By One Week</Text>
+            </View>
+            <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Map Interval:</Text>
-              {'\n'} Week
-            </Text>
+              <Text style={styles.textStyle}>Week</Text>
+            </View>
           </Card>
         </TouchableOpacity>
       </View>
@@ -132,25 +161,42 @@ export default function DataOverview({navigation}) {
             navigation.navigate('Modal Parameters');
           }}>
           <Card containerStyle={styles.modelCard}>
-            <Card.Title style={styles.cardTitle}>
-              Indoor Risk Infection and Simulation
-            </Card.Title>
+            <View style={styles.row}>
+              <View style={styles.ImageView}>
+                <Image
+                  source={require('./images/risk_prediction.png')}
+                  style={styles.imgDimensions}
+                />
+              </View>
+              <Card.Title style={styles.cardTitle}>
+                Indoor Risk Infection and Simulation
+              </Card.Title>
+            </View>
 
-            <View>
-              <Text style={styles.subHeading}>Granularity:</Text>
-              <Text style={styles.textStyle}>Indoor Environments</Text>
-              <Text style={styles.subHeading}>Room:</Text>
-              <Text style={styles.textStyle}>
-                Size ,Ventilation and Ceiling Height
-              </Text>
-              <Text style={styles.subHeading}>People: </Text>
-              <Text style={styles.textStyle}>
-                People Count, Speech Volume and Duration
-              </Text>
-              <Text style={styles.subHeading}>Duration:</Text>
-              <Text style={styles.textStyle}>Stay Duration in Room</Text>
-              <Text style={styles.subHeading}>Own Behavior:</Text>
-              <Text style={styles.textStyle}>Masks and Vaccination</Text>
+            <View style={{paddingTop: 5}}>
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Granularity: </Text>
+                <Text style={styles.textStyle}>Indoor Environments</Text>
+              </View>
+
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Infected Person: </Text>
+                <Text style={styles.textStyle}>
+                  Speech Volume, Speech Duration
+                </Text>
+              </View>
+
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Own Behavior:</Text>
+                <Text style={styles.textStyle}>Masks and Vaccination</Text>
+              </View>
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Room: </Text>
+                <Text style={styles.textStyle}>
+                  Event type, Size, Ventilation, Ceiling Height, {'\n'} People
+                  count, Stay duration
+                </Text>
+              </View>
             </View>
           </Card>
         </TouchableOpacity>
@@ -163,20 +209,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fafafa',
   },
   textStyle: {
     color: 'black',
     fontSize: 14,
+    padding: 1,
   },
   Heading: {
     fontWeight: 'bold',
     color: '#0087ff',
-    fontSize: 15,
+    fontSize: 14,
   },
   cardRow: {
     //flex: 1,
     flexDirection: 'row',
+    padding: 1,
   },
   modelCard: {
     borderRadius: 20,
@@ -184,24 +232,42 @@ const styles = StyleSheet.create({
     marginRight: 0,
     marginLeft: 10,
     width: 370,
-    height: 245,
+    height: 230,
     paddingTop: 6,
     paddingBottom: 15,
+    marginBottom: 20,
   },
   cardStyle: {
     paddingTop: 6,
     borderRadius: 20,
     width: 180,
-    marginRight: 0,
+    marginRight: 1,
     marginLeft: 10,
     borderColor: 'lightgrey',
   },
   cardTitle: {
     color: '#0087ff',
     fontSize: 15,
+    paddingTop: 15,
   },
   subHeading: {
     fontWeight: 'bold',
     color: 'black',
+    fontSize: 15,
+  },
+  imgDimensions: {
+    width: 50,
+    height: 50,
+  },
+  ImageView: {
+    // justifyContent: 'left',
+
+    alignItems: 'flex-start',
+  },
+  row: {
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'center',
+    paddingTop: 1,
   },
 });
