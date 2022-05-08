@@ -39,7 +39,7 @@ export default function getWarningLevelDataAPI() {
   const [selectedDate, setSelectedDate] = useState(new Date('2022-02-17'));
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
-    useState('2022-02-17');
+    useState('2022-04-28');
   const getWarnLevelDates = async () => {
     try {
       const response = await fetch(

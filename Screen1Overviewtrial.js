@@ -200,6 +200,9 @@ export default function DataOverview({navigation}) {
             </View>
           </Card>
         </TouchableOpacity>
+        {/* <Text>
+          {global.districtName},{global.municipalityName}
+        </Text> */}
       </View>
     </ScrollView>
   );
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'black',
     fontSize: 14,
-    padding: 1,
+    padding: 3,
   },
   Heading: {
     fontWeight: 'bold',
@@ -253,7 +256,7 @@ const styles = StyleSheet.create({
   subHeading: {
     fontWeight: 'bold',
     color: 'black',
-    fontSize: 15,
+    fontSize: 16,
   },
   imgDimensions: {
     width: 50,

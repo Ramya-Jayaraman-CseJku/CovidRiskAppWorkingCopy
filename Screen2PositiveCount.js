@@ -35,13 +35,15 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import {DataTable} from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
-//import {rnLocation} from './rnLocation.js';
 
 export default function getPositiveCasesCountAPI({navigation}) {
   const [visible, setVisible] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [selectedYear, setSelectedYear] = useState('2021');
-  const [selectedDistrict, setselectedDistrict] = useState('Linz-Land');
+  const [selectedDistrict, setselectedDistrict] = useState(
+    // global.districtName.toString(),
+    'Linz(Stadt)',
+  );
   const [showLineChart, setShowLineChart] = useState(true);
   const [loading, setLoading] = useState(true);
   const [visibleYear, setVisibleYear] = useState(false);
@@ -67,7 +69,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
             Click on the link below to know about datasources used in COVID-19
             Positive Cases Count chart<Text>{'  '}</Text>
             <Text
-              style={[styles.REffText, {color: 'blue'}]}
+              style={[styles.REffText, {color: '#FF5733'}]}
               onPress={() =>
                 Linking.openURL(
                   'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
@@ -219,51 +221,66 @@ export default function getPositiveCasesCountAPI({navigation}) {
             paddingBottom: 15,
           }}>
           <DataTable.Header style={styles.tableHeader}>
-            <DataTable.Title>
-              <Text style={styles.subHeading}>Chart</Text>
-            </DataTable.Title>
-            <DataTable.Title>
-              <Text style={styles.subHeading}>Details</Text>
-            </DataTable.Title>
+            <View>
+              <Text style={styles.subHeadingTableCol1}>Interval</Text>
+            </View>
+            <View style={styles.subHeadingTable}>
+              <Text style={styles.subHeadingTable}>Population</Text>
+            </View>
+            <View style={styles.subHeadingTable}>
+              <Text style={styles.subHeadingTable}>Active{'\n'}Cases</Text>
+            </View>
+            <View style={styles.subHeadingTable}>
+              <Text style={styles.subHeadingTable}>Active{'\n'}Cases(%)</Text>
+            </View>
           </DataTable.Header>
 
           <DataTable.Row style={styles.tableBorder}>
-            <DataTable.Cell>
-              <Text style={styles.subHeading}>Granularity:</Text>
-            </DataTable.Cell>
-            <DataTable.Cell>
-              <Text style={styles.tabletextStyle}> District-Wise</Text>
-            </DataTable.Cell>
-          </DataTable.Row>
-          <DataTable.Row style={styles.tableBorder}>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.subHeading}>Update Interval</Text>
-            </DataTable.Cell>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.tabletextStyle}>Daily</Text>
-            </DataTable.Cell>
-          </DataTable.Row>
-          <DataTable.Row style={styles.tableBorder}>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.subHeading}>Availability</Text>
-            </DataTable.Cell>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.tabletextStyle}>Lagging By Two Days</Text>
-            </DataTable.Cell>
-          </DataTable.Row>
-          <DataTable.Row style={styles.tableBorder}>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.subHeading}>Graph Interval</Text>
-            </DataTable.Cell>
-            <DataTable.Cell>
-              {' '}
-              <Text style={styles.tabletextStyle}>Week-Month-Year</Text>
-            </DataTable.Cell>
+            {/* <View style={{paddingTop: 12.7}}> */}
+            <View style={{paddingTop: 12.7}}>
+              <Text style={styles.subHeading}>
+                {
+                  districtWisePositiveCases[
+                    districtWisePositiveCases.length - 1
+                  ].Interval
+                }
+              </Text>
+            </View>
+            {/* <DataTable.Cell style={{marginLeft: 20}}> */}
+            <View style={{paddingTop: 12.7, padding: 25}}>
+              <Text style={styles.subHeading}>
+                {
+                  districtWisePositiveCases[
+                    districtWisePositiveCases.length - 1
+                  ].Population
+                }
+              </Text>
+            </View>
+            {/* <DataTable.Cell style={{textAlign: 'center', marginLeft: 40}}> */}
+            <View style={{paddingTop: 12.7, padding: 25}}>
+              <Text style={styles.subHeading}>
+                {
+                  districtWisePositiveCases[
+                    districtWisePositiveCases.length - 1
+                  ].AnzahlFaelle
+                }
+              </Text>
+            </View>
+
+            {/* </DataTable.Cell> */}
+            <View style={{paddingTop: 12.7, padding: 25}}>
+              <Text style={styles.subHeading}>
+                {(
+                  (districtWisePositiveCases[
+                    districtWisePositiveCases.length - 1
+                  ].AnzahlFaelle /
+                    districtWisePositiveCases[
+                      districtWisePositiveCases.length - 1
+                    ].Population) *
+                  100
+                ).toFixed(2)}
+              </Text>
+            </View>
           </DataTable.Row>
         </DataTable>
       </View>
@@ -326,7 +343,6 @@ export default function getPositiveCasesCountAPI({navigation}) {
               </TouchableOpacity>
             </View>
             {riskInfo()}
-            {/* <Text>location from geocoding:{location}</Text> */}
           </View>
 
           <View
@@ -380,9 +396,9 @@ export default function getPositiveCasesCountAPI({navigation}) {
           <VictoryChart
             theme={VictoryTheme.material}
             width={400}
-            height={500}
+            height={470}
             domainPadding={{x: [2, 20], y: [0, 20]}}
-            padding={{top: 100, left: 75, right: 30, bottom: 60}}
+            padding={{top: 80, left: 75, right: 30, bottom: 60}}
             containerComponent={
               <VictoryZoomVoronoiContainer
                 allowPan={true}
@@ -405,7 +421,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
 
                 tickLabels: {
                   fill: 'black',
-                  fontSize: 14,
+                  fontSize: 15,
                 },
                 grid: {
                   stroke: 'transparent',
@@ -415,14 +431,14 @@ export default function getPositiveCasesCountAPI({navigation}) {
             <VictoryAxis
               fixLabelOverlap={true}
               independentAxis
-              tickLabelComponent={<VictoryLabel angle={-19} y={450} dy={10} />}
+              tickLabelComponent={<VictoryLabel angle={-19} y={418} dy={10} />}
               style={{
                 axis: {stroke: 'black'},
                 ticks: {stroke: 'black'},
 
                 tickLabels: {
                   fill: 'black',
-                  fontSize: 14,
+                  fontSize: 15,
                 },
                 grid: {
                   stroke: 'transparent',
@@ -432,9 +448,9 @@ export default function getPositiveCasesCountAPI({navigation}) {
 
             {MyChart}
           </VictoryChart>
-          {/*  <View>
+          <View style={{paddingTop: 10}}>
             <TableExample />
-          </View> */}
+          </View>
         </ScrollView>
       </View>
     </SafeAreaProvider>
@@ -510,27 +526,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   tabletextStyle: {
-    fontSize: 14,
-    //color: '#0597D8',
+    fontSize: 15,
+
     color: '#FF5733',
     fontWeight: 'bold',
     textAlign: 'center',
-    justifyContent: 'center',
-    marginLeft: 20,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
+
   highlight: {
     fontWeight: '700',
   },
@@ -560,9 +562,24 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 15,
+    color: '#FF5733',
+    fontWeight: 'bold',
+  },
+  subHeadingTable: {
+    textAlign: 'center',
+    fontSize: 16,
     color: 'black',
     fontWeight: 'bold',
+    paddingLeft: 15,
+    paddingTop: 1,
+  },
+  subHeadingTableCol1: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+    paddingTop: 1,
   },
   flatlistcontainer: {
     height: 300,

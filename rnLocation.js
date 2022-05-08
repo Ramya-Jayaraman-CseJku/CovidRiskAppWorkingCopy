@@ -12,22 +12,17 @@ import {
   LogBox,
 } from 'react-native';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
-import RNLocation from 'react-native-location';
+
 import Geolocation from 'react-native-geolocation-service';
-import Geocoder from 'react-native-geocoding';
+
 import * as cityNames from './dropDownValues.json';
-export default function rnLocation() {
+import * as muninames from './municipalities.json';
+export const RNLocation = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.white : Colors.black,
   };
 
-  let locationSubscription = null;
-  let locationTimeout = null;
-  let permission = null;
-  let location = null;
-  let permissiongranted = null;
-  let request = null;
   let watchID = null;
 
   const [latitude, setLatitude] = useState();
@@ -36,95 +31,16 @@ export default function rnLocation() {
   const [revGeocoding, setRevGeocoding] = useState();
   const [regExp, setRegExp] = useState();
   const [districtName, setDistrictName] = useState();
-  //const [state, setState] = useState({data: cityNames['Districts']});
-  global.location = districtName;
-  Geocoder.init('AIzaSyAxDlg-Kmq69s8lORg8IXjWsiNkiHeaan8'); // use a valid API key
+  const [muniName, setMuniName] = useState();
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    locationgranted();
-    return () => {
+    Geolocation.clearWatch(watchID);
+
+    /*  return () => {
       Geolocation.clearWatch(watchID);
-    };
-  });
-  function matchCity(revGeocoding) {
-    const stm = revGeocoding.toString();
-
-    const cn = cityNames['Districts'];
-    const regex = new RegExp(stm + '.*');
-    for (var i = 0; i < cn.length; i++) {
-      //console.log(cn[i].districtName);
-      let result = cn[i].districtName.match(regex, i);
-      if (result) {
-        setDistrictName(result);
-        break;
-      }
-    }
-  }
-  //rev geocoding -city name from coorodinates
-  function getAddress(latitude, longitude) {
-    Geocoder.from(latitude, longitude)
-      .then(json => {
-        var addressComponent = json.results[0].address_components;
-
-        for (var i = 0; i < addressComponent.length; i++) {
-          var types = addressComponent[i].types;
-
-          for (var j = 0; j < types.length; j++) {
-            if (types[j] == 'locality') {
-              var locality = addressComponent[i].long_name;
-              setRevGeocoding(locality);
-            }
-          }
-        }
-        if (revGeocoding) {
-          // console.log('call match city');
-          matchCity(revGeocoding);
-        }
-      })
-      .catch(error => console.warn(error));
-  }
-  //native geolocation service
-  const geolocation = async () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        var coordinates = position.coords;
-
-        setLatitude(coordinates['latitude']);
-        setLongitude(coordinates['longitude']);
-        if (latitude && longitude) {
-          // getAddress(latitude, longitude);
-          getAddress(48.1853, 16.37663);
-        }
-      },
-      error => {
-        console.log("You don't have access for the location,enable by default");
-        //locationSubscription && locationSubscription();
-        //locationTimeout && clearTimeout(locationTimeout);
-        //  console.log('location error', error);
-        //  console.log(error.code, error.message);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-    watchID = Geolocation.watchPosition(
-      position => {
-        var updatedcoordinates = position.coords;
-        setLatitude(updatedcoordinates['latitude']);
-        setLongitude(updatedcoordinates['longitude']);
-      },
-      error => {
-        console.log(error);
-      },
-      {
-        accuracy: {
-          android: 'high',
-        },
-        enableHighAccuracy: false,
-        distanceFilter: 500,
-        interval: 10000,
-        fastestInterval: 5000,
-      },
-    );
-  };
-
+    };*/
+  }, [watchID, latitude, longitude]);
   //request the permission from android before starting the service.
   const locationgranted = async () => {
     try {
@@ -148,53 +64,161 @@ export default function rnLocation() {
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('You have access for the location', granted);
           geolocation();
+          // console.log(location, 'location resolved');
           setLocationDisabled(false);
         } else {
-          //default linz-land
-          setRevGeocoding('Linz-Land');
+          //default linz-land and linz
+
+          global.municipalityName = 'Linz';
+          global.districtName = 'Linz-Land';
           setLocationDisabled(true);
           console.log("You don't have access for the location", granted);
         }
       } else {
         geolocation();
         setLocationDisabled(false);
+        // console.log('brkpoint hits here first');
       }
+      return Promise.resolve();
     } catch (err) {
-      setRevGeocoding('Linz-Land');
-      setLocationDisabled(true);
+      global.municipalityName = 'Linz';
+      global.districtName = 'Linz-Land';
+      //  setLocationDisabled(true);
       //console.log(err);
     }
   };
+  locationgranted();
+  //native geolocation service
+  const geolocation = () => {
+    try {
+      Geolocation.getCurrentPosition(
+        position => {
+          var coordinates = position.coords;
+          setLatitude(coordinates['latitude']);
+          setLongitude(coordinates['longitude']);
+          /*  if (latitude && longitude) {
+            getAddress(latitude, longitude);
+            console.log('address resolved');
+          } else {
+            global.locationVaccine = 'Linz';
+            global.locationCases = 'Linz-Land';
+          } */
+          //console.log('brkpoint hits here 2nd');
+        },
+        error => {
+          console.log(
+            "You don't have access for the location,enable by default",
+          );
+          global.municipalityName = 'Linz';
+          global.districtName = 'Linz-Land';
+          //locationSubscription && locationSubscription();
+          //locationTimeout && clearTimeout(locationTimeout);
+          //  console.log('location error', error);
+          //  console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    } catch (err) {
+      console.log(err);
+    }
+
+    //continuous monitoring of position
+    watchID = Geolocation.watchPosition(
+      position => {
+        var updatedcoordinates = position.coords;
+        setLatitude(updatedcoordinates['latitude']);
+        setLongitude(updatedcoordinates['longitude']);
+      },
+      error => {
+        global.locationVaccine = 'Linz';
+        global.locationCases = 'Linz-Land';
+        console.log('it hits here', error);
+      },
+      {
+        accuracy: {
+          android: 'high',
+        },
+        enableHighAccuracy: false,
+        distanceFilter: 500,
+        interval: 10000,
+        fastestInterval: 5000,
+        showLocationDialog: true,
+        forceRequestLocation: true,
+      },
+    );
+  };
+  //Geolocation.stopObserving();
   // locationgranted();
 
+  const getAddress = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`,
+      );
+      const json = await response.json();
+      // console.log('response', json);
+      var locality = json['city'];
+      // console.log('city', json['city']);
+      //console.log('brkpoint hits here ga');
+      setRevGeocoding(locality);
+
+      if (revGeocoding) {
+        matchCity(revGeocoding);
+        getmunname(revGeocoding);
+
+        //console.log('brkpoint hits here 3rd');
+      }
+      return Promise.resolve();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  function matchCity(revGeocoding) {
+    const stm = revGeocoding.toString();
+
+    const cn = cityNames['Districts'];
+
+    const regex = new RegExp(stm + '.*');
+    for (var i = 0; i < cn.length; i++) {
+      //console.log(cn[i].districtName);
+      let result = cn[i].districtName.match(regex, i);
+      if (result) {
+        setDistrictName(result);
+        // console.log('brkpoint hits here mc');
+        global.districtName = districtName;
+        break;
+      }
+    }
+  }
+  function getmunname(revGeocoding) {
+    const mtm = revGeocoding.toString();
+    const mn = muninames['Municipalities'];
+    const regex = new RegExp(mtm + '.*');
+    for (var j = 0; j < mn.length; j++) {
+      //console.log(cn[i].districtName);
+      let munresult = mn[j].municipality_name.match(regex, j);
+      if (munresult) {
+        setMuniName(munresult);
+        // console.log('brkpoint hits here mc');
+        global.municipalityName = muniName;
+        break;
+      }
+    }
+  }
+  if (latitude && longitude) {
+    getAddress(latitude, longitude);
+    // console.log('address resolved');
+  } else {
+    global.municipalityName = 'Linz';
+    global.districtName = 'Linz-Land';
+  }
   LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
   LogBox.ignoreAllLogs();
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Header />
-        {!locationDisabled ? (
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.white : Colors.black,
-            }}>
-            <Text>lat: {latitude}</Text>
-            <Text>lon: {longitude}</Text>
-            <Text>Reverse Geocode Address Information</Text>
-            <Text>{revGeocoding}</Text>
-            <Text>districtName</Text>
-            <Text>{districtName}</Text>
-          </View>
-        ) : (
-          <View>
-            <Text>Linz-Land</Text>
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+  return null;
+};
+
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,

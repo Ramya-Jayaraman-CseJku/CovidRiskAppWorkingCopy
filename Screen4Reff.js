@@ -193,12 +193,13 @@ export default function getReffectiveValue() {
                 minimumZoom={{x: 3, y: 0.01}}
                 /*  zoomDomain={zoomDomain}
                   onZoomDomainChange={handleZoom} */
-                labels={({datum}) => `R_Eff: ${datum.R_eff}`}
+                labels={({datum}) => `R_Eff: ${datum.R_eff.toFixed(2)}`}
               />
             }>
             <VictoryAxis
               dependentAxis
               fixLabelOverlap={true}
+              tickValues={rEffAustria.R_eff}
               style={{
                 axis: {stroke: 'black'},
                 ticks: {stroke: 'black'},
@@ -206,6 +207,9 @@ export default function getReffectiveValue() {
                 tickLabels: {
                   fill: 'black',
                   fontSize: 14,
+                },
+                grid: {
+                  stroke: 'transparent',
                 },
               }}
             />
@@ -221,6 +225,9 @@ export default function getReffectiveValue() {
                   fill: 'black',
                   fontSize: 14,
                   padding: 10,
+                },
+                grid: {
+                  stroke: 'transparent',
                 },
               }}
             />

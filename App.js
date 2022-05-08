@@ -16,93 +16,17 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-//import dataOverview from './Screen1Overview';
+
 import {OverviewStackNavigator} from './stack1Navigation';
-import topTabBarCharts from './topTabBar';
-import getWarningLevelDataAPI from './getCoronaWarningLevel';
-import {MainStackNavigator} from './stackNavigation';
-//import {rnLocation} from './rnLocation';
-
+import {RNLocation} from './rnLocation';
 const Tab = createMaterialBottomTabNavigator();
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName="Overview"
-      activeColor="#f0edf6"
-      labelStyle={{fontSize: 12}}
-      style={{backgroundColor: 'tomato'}}
-      barStyle={{backgroundColor: '#694fad'}}>
-      <Tab.Screen
-        name="Overview"
-        component={OverviewStackNavigator}
-        options={{
-          tabBarLabel: 'Overview',
-          tabBarColor: '#005fff',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons
-              name="database-check"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Charts"
-        component={topTabBarCharts}
-        options={{
-          tabBarLabel: 'Charts',
-          tabBarColor: '#148F77',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="chart-line" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="WarnLevel"
-        component={getWarningLevelDataAPI}
-        options={{
-          tabBarLabel: 'WarnLevel',
-          tabBarColor: '#d78700',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons
-              name="map-marker-alert-outline"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Modal"
-        component={MainStackNavigator}
-        options={{
-          tabBarLabel: 'Modal',
-          tabBarColor: '#9239FE',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons
-              name="thought-bubble"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
 
 export default function App() {
   const scheme = useColorScheme();
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <MyTabs /> */}
-
+      {/* <RNLocation /> */}
       <OverviewStackNavigator />
-      {/* <rnLocation /> */}
     </NavigationContainer>
   );
 }
