@@ -36,13 +36,14 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import {DataTable} from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 
-export default function getPositiveCasesCountAPI({navigation}) {
+export default function getPositiveCasesCountAPI({navigation, route}) {
   const [visible, setVisible] = useState(false);
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [selectedYear, setSelectedYear] = useState('2021');
   const [selectedDistrict, setselectedDistrict] = useState(
+    route.params.districtName.toString(),
     // global.districtName.toString(),
-    'Linz(Stadt)',
+    // 'Linz(Stadt)',
   );
   const [showLineChart, setShowLineChart] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -57,31 +58,27 @@ export default function getPositiveCasesCountAPI({navigation}) {
   const [query, setQuery] = useState('');
   const [showRiskInfo, setShowRiskInfo] = useState(true);
   //let location = rnLocation.global.location;
-  const toggleRiskInfo = () => {
-    //Toggling the state of single Collapsible
-    setShowRiskInfo(!showRiskInfo);
-  };
-  function riskInfo() {
-    return (
-      <View style={styles.REffText1}>
-        <Collapsible collapsed={showRiskInfo}>
-          <Text style={styles.REffText}>
-            Click on the link below to know about datasources used in COVID-19
-            Positive Cases Count chart<Text>{'  '}</Text>
-            <Text
-              style={[styles.REffText, {color: '#FF5733'}]}
-              onPress={() =>
-                Linking.openURL(
-                  'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
-                )
-              }>
-              link
-            </Text>
-          </Text>
-        </Collapsible>
-      </View>
-    );
-  }
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              'https://www.data.gv.at/katalog/dataset/4b71eb3d-7d55-4967-b80d-91a3f220b60c',
+            )
+          }>
+          <Icon
+            name="information"
+            type="material-community"
+            color="#ffffff"
+            style={{paddingTop: 2, paddingRight: 10}}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   const showMenu = () => setVisible(true);
   const hideMenu = () => setVisible(false);
   const showMenuYear = () => setVisibleYear(true);
@@ -328,23 +325,6 @@ export default function getPositiveCasesCountAPI({navigation}) {
             </Modal>
           </View>
 
-          <View>
-            <View style={styles.row1}>
-              <Text style={styles.heading}>
-                Positive Cases Count - Districts
-              </Text>
-              <TouchableOpacity onPress={() => toggleRiskInfo()}>
-                <Icon
-                  name="information"
-                  type="material-community"
-                  color="#ED471C"
-                  style={{paddingTop: 20, paddingLeft: 20}}
-                />
-              </TouchableOpacity>
-            </View>
-            {riskInfo()}
-          </View>
-
           <View
             style={{
               flexDirection: 'row',
@@ -448,7 +428,7 @@ export default function getPositiveCasesCountAPI({navigation}) {
 
             {MyChart}
           </VictoryChart>
-          <View style={{paddingTop: 10}}>
+          <View style={{paddingTop: 40}}>
             <TableExample />
           </View>
         </ScrollView>
@@ -524,6 +504,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     marginLeft: 20,
+    marginTop: 15,
   },
   tabletextStyle: {
     fontSize: 15,

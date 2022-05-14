@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {PermissionsAndroid} from 'react-native';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,17 +8,132 @@ import {
   View,
   Linking,
   Image,
+  LogBox,
   TouchableOpacity,
 } from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import * as cityNames from './dropDownValues.json';
+import * as muninames from './municipalities.json';
 import {Card, Header} from 'react-native-elements';
 
 export default function DataOverview({navigation}) {
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  const [revGeocoding, setRevGeocoding] = useState();
+  const [districtName, setDistrictName] = useState();
+  const [municipalityName, setMunicipalityName] = useState();
+  const [loading, setLoading] = useState(false);
+  const locationgranted = async () => {
+    const checkPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+    if (checkPermission === PermissionsAndroid.RESULTS.GRANTED) {
+      geolocation();
+      setLocationDisabled(false);
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Background Location Permission',
+            message:
+              'We need access to your location so you can get location-aware covid updates.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          geolocation();
+
+          setLocationDisabled(false);
+        } else {
+          setLocationDisabled(true);
+          console.log("You don't have access for the location", granted);
+        }
+      } catch (err) {}
+    }
+  };
+  locationgranted();
+  const geolocation = () => {
+    try {
+      Geolocation.getCurrentPosition(
+        position => {
+          var coordinates = position.coords;
+          setLatitude(coordinates['latitude']);
+          setLongitude(coordinates['longitude']);
+          if (latitude && longitude) {
+            getAddress(latitude, longitude);
+          } else {
+          }
+        },
+        error => {
+          console.log(
+            "You don't have access for the location,enable by default",
+          );
+        },
+        {enableHighAccuracy: true, timeout: 15000}, //maximumAge: 10000},
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getAddress = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`,
+      );
+      const json = await response.json();
+
+      var locality = json['city'];
+
+      setRevGeocoding(locality);
+
+      if (revGeocoding) {
+        matchCity(revGeocoding);
+        getmunname(revGeocoding);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  function matchCity(revGeocoding) {
+    const stm = revGeocoding.toString();
+
+    const cn = cityNames['Districts'];
+
+    const regex = new RegExp(stm + '.*');
+    let result = cn.find(t => t.districtName.match(regex));
+    if (result.districtName) {
+      setDistrictName(result.districtName);
+
+      console.log('dist name find', districtName);
+    }
+  }
+  function getmunname(revGeocoding) {
+    const mtm = revGeocoding.toString();
+    const mn = muninames['Municipalities'];
+    const regex = new RegExp(mtm + '.*');
+    let munresult = mn.find(m => m.municipality_name.match(regex));
+    if (munresult.municipality_name) {
+      setMunicipalityName(munresult.municipality_name);
+
+      console.log('muni name find', municipalityName);
+    }
+  }
+  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+  LogBox.ignoreAllLogs();
   return (
     <ScrollView style={styles.container}>
       <View style={styles.cardRow}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('COVID-19 Positive Cases Count');
+            navigation.navigate('COVID-19 Positive Cases Count', {
+              districtName: districtName,
+            });
           }}>
           <Card containerStyle={styles.cardStyle}>
             <View style={styles.row}>
@@ -53,7 +169,9 @@ export default function DataOverview({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Vaccinated Count');
+            navigation.navigate('Vaccinated Count', {
+              municipalityName: municipalityName,
+            });
           }}>
           <Card containerStyle={styles.cardStyle}>
             <View style={styles.row}>
@@ -200,9 +318,9 @@ export default function DataOverview({navigation}) {
             </View>
           </Card>
         </TouchableOpacity>
-        {/* <Text>
-          {global.districtName},{global.municipalityName}
-        </Text> */}
+        <Text>
+          {districtName},{municipalityName}
+        </Text>
       </View>
     </ScrollView>
   );

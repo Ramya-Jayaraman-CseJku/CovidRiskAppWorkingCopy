@@ -35,13 +35,14 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import {Button, Header, Icon} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import {DataTable} from 'react-native-paper';
-export default function getFullyVaccinatedCountAPI() {
+export default function getFullyVaccinatedCountAPI({navigation, route}) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [districtWiseVaccCount, setDistrictWiseVaccCount] = useState([]);
   const [selectedDistrictName, setSelectedDistrictName] = useState(
+    route.params.municipalityName.toString(),
     //global.municipalityName.toString(),
-    'Linz',
+    // 'Linz',
   );
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [query, setQuery] = useState('');
@@ -50,33 +51,30 @@ export default function getFullyVaccinatedCountAPI() {
   const [modalVisible, setModalVisible] = useState(false);
   const [showRiskInfo, setShowRiskInfo] = useState(true);
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              'https://www.data.gv.at/katalog/dataset/d230c9e8-745a-4da3-a3b4-86842591d9f0',
+            )
+          }>
+          <Icon
+            name="information"
+            type="material-community"
+            color="#ffffff"
+            style={{paddingTop: 2, paddingRight: 10}}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const toggleRiskInfo = () => {
     //Toggling the state of single Collapsible
     setShowRiskInfo(!showRiskInfo);
   };
 
-  function riskInfo() {
-    return (
-      <View style={styles.REffText1}>
-        <Collapsible collapsed={showRiskInfo}>
-          <Text style={styles.REffText}>
-            Click on the link below to know about datasources used in Vaccinated
-            Count for Districts chart
-            <Text>{'  '}</Text>
-            <Text
-              style={[styles.REffText, {color: '#2CB083'}]}
-              onPress={() =>
-                Linking.openURL(
-                  'https://www.data.gv.at/katalog/dataset/d230c9e8-745a-4da3-a3b4-86842591d9f0',
-                )
-              }>
-              link
-            </Text>
-          </Text>
-        </Collapsible>
-      </View>
-    );
-  }
   const selectedYear = 2021;
 
   const showMenu = () => setVisible(true);
@@ -303,21 +301,6 @@ export default function getFullyVaccinatedCountAPI() {
               </View>
             </Modal>
           </View>
-          <View>
-            <View style={styles.row1}>
-              <Text style={styles.heading}> Vaccinated Count - Districts</Text>
-              <TouchableOpacity onPress={() => toggleRiskInfo()}>
-                <Icon
-                  name="information"
-                  type="material-community"
-                  color="#2CB083"
-                  style={{paddingTop: 20, paddingLeft: 20}}
-                />
-              </TouchableOpacity>
-            </View>
-
-            {riskInfo()}
-          </View>
 
           <View
             style={{
@@ -327,7 +310,9 @@ export default function getFullyVaccinatedCountAPI() {
               paddingTop: 5,
             }}>
             <Pressable onPress={() => setModalVisible(true)}>
-              <Text style={styles.textStyle}>{selectedDistrictName} </Text>
+              <Text style={styles.districtNametextStyle}>
+                {selectedDistrictName}{' '}
+              </Text>
             </Pressable>
 
             {/* <Text style={styles.textStyle}>
@@ -475,6 +460,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     marginLeft: 20,
+    marginBottom: 15,
+  },
+  districtNametextStyle: {
+    fontSize: 16,
+
+    color: '#2CB083',
+    //color: '#0597D8',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
+    marginTop: 15,
   },
 
   highlight: {

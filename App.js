@@ -18,14 +18,13 @@ import {
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
 import {OverviewStackNavigator} from './stack1Navigation';
-import {RNLocation} from './rnLocation';
+
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   const scheme = useColorScheme();
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <RNLocation /> */}
       <OverviewStackNavigator />
     </NavigationContainer>
   );
