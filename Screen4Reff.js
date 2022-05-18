@@ -28,13 +28,33 @@ import {Header, Icon, Card} from 'react-native-elements';
 import Collapsible from 'react-native-collapsible';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {DataTable} from 'react-native-paper';
-export default function getReffectiveValue() {
+export default function getReffectiveValue({navigation}) {
   const [loading, setLoading] = useState(true);
   const [rEffAustria, setREffAustria] = useState([]);
   const [showRiskInfo, setShowRiskInfo] = useState(true);
   const VictoryZoomVoronoiContainer = createContainer('zoom', 'voronoi');
-  const toggleRiskInfo = () => {
-    //Toggling the state of single Collapsible
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              'https://www.ages.at/wissen-aktuell/publikationen/epidemiologische-parameter-des-covid19-ausbruchs-oesterreich-20202021/',
+            )
+          }>
+          <Icon
+            name="information"
+            type="material-community"
+            color="#ffffff"
+            style={{paddingTop: 2, paddingRight: 10}}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+  /*   const toggleRiskInfo = () => {
+   
     setShowRiskInfo(!showRiskInfo);
   };
   function riskInfo() {
@@ -62,7 +82,7 @@ export default function getReffectiveValue() {
         </Collapsible>
       </View>
     );
-  }
+  } */
   const getREffectiveValue = async () => {
     try {
       const response = await fetch(
@@ -82,7 +102,7 @@ export default function getReffectiveValue() {
   var MyChart = (
     <VictoryLine
       style={{
-        data: {stroke: '#0597D8', strokeWidth: 4},
+        data: {stroke: '#0597D8', strokeWidth: 3},
         parent: {border: '1px solid #ccc'},
       }}
       data={rEffAustria}
@@ -161,7 +181,7 @@ export default function getReffectiveValue() {
     <SafeAreaProvider>
       <ScrollView>
         <View style={styles.container}>
-          <View>
+          {/* <View>
             <View style={styles.row1}>
               <Text style={styles.heading}>R_Effective_Value {'\n'}</Text>
               <TouchableOpacity onPress={toggleRiskInfo}>
@@ -173,7 +193,7 @@ export default function getReffectiveValue() {
               </TouchableOpacity>
             </View>
             {riskInfo()}
-          </View>
+          </View> */}
           <View>
             <Text style={styles.textStyle}>Austria Daily View</Text>
           </View>
@@ -181,9 +201,9 @@ export default function getReffectiveValue() {
           <VictoryChart
             theme={VictoryTheme.material}
             width={400}
-            height={500}
-            domainPadding={{x: [2, 15]}}
-            padding={{top: 40, left: 50, right: 30, bottom: 60}}
+            height={520}
+            domainPadding={{x: [2, 20], y: [0, 20]}}
+            padding={{top: 80, left: 50, right: 30, bottom: 60}}
             containerComponent={
               <VictoryZoomVoronoiContainer
                 allowPan={true}
@@ -206,7 +226,7 @@ export default function getReffectiveValue() {
 
                 tickLabels: {
                   fill: 'black',
-                  fontSize: 14,
+                  fontSize: 15,
                 },
                 grid: {
                   stroke: 'transparent',
@@ -216,15 +236,14 @@ export default function getReffectiveValue() {
             <VictoryAxis
               fixLabelOverlap={true}
               independentAxis
-              tickLabelComponent={<VictoryLabel angle={-45} y={460} dy={7.5} />}
+              tickLabelComponent={<VictoryLabel angle={-19} y={470} dy={10} />}
               style={{
                 axis: {stroke: 'black'},
                 ticks: {stroke: 'black'},
 
                 tickLabels: {
                   fill: 'black',
-                  fontSize: 14,
-                  padding: 10,
+                  fontSize: 15,
                 },
                 grid: {
                   stroke: 'transparent',
@@ -350,7 +369,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#0597D8',
-    marginTop: 10,
+    marginLeft: 17,
+    marginTop: 15,
     flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'center',

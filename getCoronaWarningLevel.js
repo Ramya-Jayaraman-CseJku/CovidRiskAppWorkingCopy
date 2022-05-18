@@ -25,7 +25,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 const STYLES = ['default', 'dark-content', 'light-content'];
 const TRANSITIONS = ['fade', 'slide', 'none'];
 
-export default function getWarningLevelDataAPI() {
+export default function getWarningLevelDataAPI({navigation}) {
   const [hidden, setHidden] = useState(false);
   const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
   const [statusBarTransition, setStatusBarTransition] = useState(
@@ -40,6 +40,26 @@ export default function getWarningLevelDataAPI() {
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
     useState('2022-04-28');
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL(
+              'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e',
+            )
+          }>
+          <Icon
+            name="information"
+            type="material-community"
+            color="#ffffff"
+            style={{paddingTop: 2, paddingRight: 10}}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const getWarnLevelDates = async () => {
     try {
       const response = await fetch(
@@ -257,19 +277,6 @@ export default function getWarningLevelDataAPI() {
                 <Card.Title style={styles.cardTitle}>
                   COVID-19 Risk Level Indicators
                 </Card.Title>
-                <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL(
-                      'https://www.data.gv.at/katalog/dataset/52abfc2b-031c-4875-b838-653abbfccf4e',
-                    )
-                  }>
-                  <Icon
-                    name="information"
-                    type="material-community"
-                    color="#d78700"
-                    style={{marginBottom: 10, paddingLeft: 20}}
-                  />
-                </TouchableOpacity>
               </View>
             </View>
             {/*  <Card.Title style={styles.cardTitle}>

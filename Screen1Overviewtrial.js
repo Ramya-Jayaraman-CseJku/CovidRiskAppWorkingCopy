@@ -14,7 +14,7 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 import * as cityNames from './dropDownValues.json';
 import * as muninames from './municipalities.json';
-import {Card, Header} from 'react-native-elements';
+import {Card, Header, Icon} from 'react-native-elements';
 
 export default function DataOverview({navigation}) {
   const [latitude, setLatitude] = useState();
@@ -23,6 +23,7 @@ export default function DataOverview({navigation}) {
   const [districtName, setDistrictName] = useState();
   const [municipalityName, setMunicipalityName] = useState();
   const [loading, setLoading] = useState(false);
+
   const locationgranted = async () => {
     const checkPermission = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -50,6 +51,8 @@ export default function DataOverview({navigation}) {
           setLocationDisabled(false);
         } else {
           setLocationDisabled(true);
+          setDistrictName('Linz-Land');
+          setMunicipalityName('Linz');
           console.log("You don't have access for the location", granted);
         }
       } catch (err) {}
@@ -69,6 +72,8 @@ export default function DataOverview({navigation}) {
           }
         },
         error => {
+          setDistrictName('Linz-Land');
+          setMunicipalityName('Linz');
           console.log(
             "You don't have access for the location,enable by default",
           );

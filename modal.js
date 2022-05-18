@@ -16,7 +16,7 @@ import ModalParameters from './data';
 import RiskInfoandSimulation from './riskInfectionCalculation';
 import Collapsible from 'react-native-collapsible';
 
-export default function ModelParamSelection() {
+export default function ModelParamSelection({navigation}) {
   //behavior
   const [maskCateogoryPpl, setMaskCategoryPpl] = useState('None');
   const [maskEfficiencyI, setMaskEfficiencyI] = useState(0);
@@ -40,29 +40,24 @@ export default function ModelParamSelection() {
   const [speechVolumeText, setSpeechVolumeText] = useState('None');
   const [showRiskInfo, setShowRiskInfo] = useState(true);
 
-  const toggleRiskInfo = () => {
-    //Toggling the state of single Collapsible
-    setShowRiskInfo(!showRiskInfo);
-  };
-  function riskInfo() {
-    return (
-      <View style={styles.REffText1}>
-        <Collapsible collapsed={showRiskInfo}>
-          <Text style={styles.REffText}>
-            Click on the link below to know about datasources used in COVID-19
-            Positive Cases Count chart<Text>{'  '}</Text>
-            <Text
-              style={[styles.REffText, {color: 'blue'}]}
-              onPress={() =>
-                Linking.openURL('https://www.mpic.de/4747361/risk-calculator')
-              }>
-              link
-            </Text>
-          </Text>
-        </Collapsible>
-      </View>
-    );
-  }
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL('https://www.mpic.de/4747361/risk-calculator')
+          }>
+          <Icon
+            name="information"
+            type="material-community"
+            color="#ffffff"
+            style={{paddingTop: 2, paddingRight: 10}}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   const behavioralProps = {
     maskCateogoryPpl,
     maskEfficiencyI,
@@ -115,20 +110,6 @@ export default function ModelParamSelection() {
     <View styles={styles.container}>
       <ScrollView>
         <>
-          <View>
-            <View style={styles.row1}>
-              <Text style={styles.heading}>Modal Parameters</Text>
-              <TouchableOpacity onPress={() => toggleRiskInfo()}>
-                <Icon
-                  name="information"
-                  type="material-community"
-                  color="#9239FE"
-                  style={{paddingTop: 10, paddingLeft: 20}}
-                />
-              </TouchableOpacity>
-            </View>
-            {riskInfo()}
-          </View>
           <BehavioralProperties todos={behavioralProps} />
           <RoomProperties roomprops={behavioralProps} />
           <InfectedPersonProperties infectedpplprops={behavioralProps} />
