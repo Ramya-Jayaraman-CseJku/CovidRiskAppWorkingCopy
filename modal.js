@@ -18,7 +18,7 @@ import Collapsible from 'react-native-collapsible';
 
 export default function ModelParamSelection({navigation}) {
   //behavior
-  const [maskCateogoryPpl, setMaskCategoryPpl] = useState('None');
+  const [maskCateogoryPpl, setMaskCategoryPpl] = useState('Mask For People');
   const [maskEfficiencyI, setMaskEfficiencyI] = useState(0);
   const [maskEfficiencyN, setMaskEfficiencyN] = useState(0);
   const [maskTypeI, setMaskTypeI] = useState('None');
@@ -110,8 +110,8 @@ export default function ModelParamSelection({navigation}) {
     <View styles={styles.container}>
       <ScrollView>
         <>
-          <BehavioralProperties todos={behavioralProps} />
           <RoomProperties roomprops={behavioralProps} />
+          <BehavioralProperties todos={behavioralProps} />
           <InfectedPersonProperties infectedpplprops={behavioralProps} />
           <ModalParameters todos={behavioralProps} />
           <RiskInfoandSimulation todos={behavioralProps} />

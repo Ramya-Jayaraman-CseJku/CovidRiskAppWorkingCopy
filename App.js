@@ -18,11 +18,16 @@ import {
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
 import {OverviewStackNavigator} from './stack1Navigation';
+import SplashScreen from 'react-native-splash-screen';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   const scheme = useColorScheme();
+  //Hide Splash screen on app load.
+  React.useEffect(() => {
+    SplashScreen.hide();
+  });
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <OverviewStackNavigator />

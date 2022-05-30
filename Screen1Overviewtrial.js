@@ -148,27 +148,25 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}>Positive Cases</Card.Title>
+              <Card.Title style={styles.cardTitle}> Positive Cases</Card.Title>
             </View>
 
             <View style={styles.cardRow}>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Granularity:</Text>
-                District
-              </Text>
+              <Text style={styles.subHeading}>Granularity:</Text>
+              <Text style={styles.textStyle}> District</Text>
             </View>
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              <Text style={styles.textStyle}>Daily</Text>
+              <Text style={styles.textStyle}> Daily</Text>
+            </View>
+            <View>
+              <Text style={styles.subHeading}>Availability:</Text>
+              <Text style={styles.textStyle}>Lagging By Two Days</Text>
             </View>
 
-            <Text style={styles.subHeading}>Availability:</Text>
-            <Text style={styles.textStyle}>Lagging By Two Days</Text>
-            <View style={styles.cardRow}>
-              <Text style={styles.textStyle}>
-                <Text style={styles.subHeading}>Graph Interval: </Text>
-                {'\n'}Day-Week-Month-Year
-              </Text>
+            <View>
+              <Text style={styles.subHeading}>Graph Interval:</Text>
+              <Text style={styles.textStyle}>Day-Week-Month-Year</Text>
             </View>
           </Card>
         </TouchableOpacity>
@@ -186,23 +184,23 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}>Vaccination </Card.Title>
+              <Card.Title style={styles.cardTitle}> Vaccination</Card.Title>
             </View>
 
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Granularity:</Text>
-              <Text style={styles.textStyle}>District</Text>
+              <Text style={styles.textStyle}> District</Text>
             </View>
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              <Text style={styles.textStyle}>Daily</Text>
+              <Text style={styles.textStyle}> Daily</Text>
             </View>
             <View>
               <Text style={styles.subHeading}>Availability:</Text>
               <Text style={styles.textStyle}>Lagging By Two Days</Text>
             </View>
             <View>
-              <Text style={styles.subHeading}>Graph Interval: </Text>
+              <Text style={styles.subHeading}>Graph Interval:</Text>
               <Text style={styles.textStyle}>For Specific Date</Text>
             </View>
           </Card>
@@ -222,24 +220,24 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}>REffective</Card.Title>
+              <Card.Title style={styles.cardTitle}> REffective</Card.Title>
             </View>
 
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Granularity:</Text>
-              <Text style={styles.textStyle}>Country</Text>
+              <Text style={styles.textStyle}> Country</Text>
             </View>
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Update Interval:</Text>
-              <Text style={styles.textStyle}>Daily</Text>
+              <Text style={styles.textStyle}> Daily</Text>
             </View>
 
             <Text style={styles.subHeading}>Availability:</Text>
             <Text style={styles.textStyle}>Lagging By One Week</Text>
 
             <View style={styles.cardRow}>
-              <Text style={styles.subHeading}>Graph Interval: </Text>
-              <Text style={styles.textStyle}>Daily</Text>
+              <Text style={styles.subHeading}>Graph Interval:</Text>
+              <Text style={styles.textStyle}> Daily</Text>
             </View>
           </Card>
         </TouchableOpacity>
@@ -255,17 +253,16 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}> Warning Level </Card.Title>
+              <Card.Title style={styles.cardTitle}> Warning</Card.Title>
             </View>
 
             <View style={styles.cardRow}>
-              <Text style={styles.subHeading}>Granularity: </Text>
-              <Text style={styles.textStyle}>District</Text>
+              <Text style={styles.subHeading}>Granularity:</Text>
+              <Text style={styles.textStyle}> District</Text>
             </View>
             <View style={styles.cardRow}>
-              <Text style={styles.subHeading}>Update Interval: </Text>
-
-              <Text style={styles.textStyle}>Week </Text>
+              <Text style={styles.subHeading}>Update Interval:</Text>
+              <Text style={styles.textStyle}> Week</Text>
             </View>
             <View>
               <Text style={styles.subHeading}>Availability:</Text>
@@ -273,7 +270,7 @@ export default function DataOverview({navigation}) {
             </View>
             <View style={styles.cardRow}>
               <Text style={styles.subHeading}>Map Interval:</Text>
-              <Text style={styles.textStyle}>Week</Text>
+              <Text style={styles.textStyle}> Week</Text>
             </View>
           </Card>
         </TouchableOpacity>
@@ -291,9 +288,7 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}>
-                Indoor Risk Infection and Simulation
-              </Card.Title>
+              <Card.Title style={styles.cardTitle}> Model</Card.Title>
             </View>
 
             <View style={{paddingTop: 5}}>
@@ -301,23 +296,22 @@ export default function DataOverview({navigation}) {
                 <Text style={styles.subHeading}>Granularity: </Text>
                 <Text style={styles.textStyle}>Indoor Environments</Text>
               </View>
-
-              <View style={styles.cardRow}>
-                <Text style={styles.subHeading}>Infected Person: </Text>
-                <Text style={styles.textStyle}>
-                  Speech Volume, Speech Duration
-                </Text>
-              </View>
-
-              <View style={styles.cardRow}>
-                <Text style={styles.subHeading}>Own Behavior:</Text>
-                <Text style={styles.textStyle}>Masks and Vaccination</Text>
-              </View>
               <View style={styles.cardRow}>
                 <Text style={styles.subHeading}>Room: </Text>
                 <Text style={styles.textStyle}>
                   Event type, Size, Ventilation, Ceiling Height, {'\n'} People
                   count, Stay duration
+                </Text>
+              </View>
+
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Behavior: </Text>
+                <Text style={styles.textStyle}>Masks and Vaccination</Text>
+              </View>
+              <View style={styles.cardRow}>
+                <Text style={styles.subHeading}>Infected Person: </Text>
+                <Text style={styles.textStyle}>
+                  Speech Volume, Speech Duration
                 </Text>
               </View>
             </View>

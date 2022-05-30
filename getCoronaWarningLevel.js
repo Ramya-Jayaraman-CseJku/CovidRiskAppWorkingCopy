@@ -36,10 +36,10 @@ export default function getWarningLevelDataAPI({navigation}) {
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorDate, setError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date('2022-02-17'));
+  const [selectedDate, setSelectedDate] = useState(new Date('2022-05-19'));
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
-    useState('2022-04-28');
+    useState('2022-05-19');
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -97,6 +97,7 @@ export default function getWarningLevelDataAPI({navigation}) {
     getMonth,
     dayNumber,
     dayString,
+    getYear,
   }) => (
     <TouchableOpacity
       onPress={onPress}
@@ -107,8 +108,11 @@ export default function getWarningLevelDataAPI({navigation}) {
       <Text style={[styles.dateOutput, backgroundColor && textColor]}>
         {dayNumber}
       </Text>
-      <Text style={[styles.dayStyle, backgroundColor && textColor]}>
+      {/*  <Text style={[styles.dayStyle, backgroundColor && textColor]}>
         {isToday(item) ? 'today' : dayString}
+      </Text> */}
+      <Text style={[styles.dayStyle, backgroundColor && textColor]}>
+        {getYear}
       </Text>
     </TouchableOpacity>
   );
@@ -125,6 +129,9 @@ export default function getWarningLevelDataAPI({navigation}) {
 
   function getMonthName(date) {
     return date.toString().split(' ')[1];
+  }
+  function getAcademicYear(date) {
+    return date.toString().split(' ')[2];
   }
   function isSameDay(date1, date2) {
     if (
@@ -171,6 +178,7 @@ export default function getWarningLevelDataAPI({navigation}) {
     const dayNumber = item.getDate();
     const dayString = getDayString(item);
     const getMonth = getMonthName(item);
+    const getYear = item.getFullYear();
     const isActive = isSameDay(new Date(selectedDate), item);
     const backgroundColor = isActive ? 'white' : '#0346a6';
     const color = isActive ? 'green' : 'white';
@@ -184,6 +192,7 @@ export default function getWarningLevelDataAPI({navigation}) {
         getMonth={getMonth}
         dayNumber={dayNumber}
         dayString={dayString}
+        getYear={getYear}
       />
     );
   };
