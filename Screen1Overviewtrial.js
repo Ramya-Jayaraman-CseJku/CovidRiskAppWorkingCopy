@@ -317,9 +317,9 @@ export default function DataOverview({navigation}) {
             </View>
           </Card>
         </TouchableOpacity>
-        <Text>
+        {/* <Text>
           {districtName},{municipalityName}
-        </Text>
+        </Text> */}
       </View>
     </ScrollView>
   );
