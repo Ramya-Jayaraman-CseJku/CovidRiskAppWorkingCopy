@@ -41,7 +41,9 @@ export default function getPositiveCasesCountAPI({navigation, route}) {
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [selectedYear, setSelectedYear] = useState('2021');
   const [selectedDistrict, setselectedDistrict] = useState(
-    route.params.districtName.toString(),
+    route.params.districtName
+      ? route.params.districtName.toString()
+      : 'Linz-Land',
     // global.districtName.toString(),
     // 'Linz(Stadt)',
   );
@@ -225,10 +227,10 @@ export default function getPositiveCasesCountAPI({navigation, route}) {
               <Text style={styles.subHeadingTable}>Population</Text>
             </View>
             <View style={styles.subHeadingTable}>
-              <Text style={styles.subHeadingTable}>Active{'\n'}Cases</Text>
+              <Text style={styles.subHeadingTable}>Positive{'\n'}Cases</Text>
             </View>
             <View style={styles.subHeadingTable}>
-              <Text style={styles.subHeadingTable}>Active{'\n'}Cases(%)</Text>
+              <Text style={styles.subHeadingTable}>Positive{'\n'}Cases(%)</Text>
             </View>
           </DataTable.Header>
 
@@ -245,7 +247,7 @@ export default function getPositiveCasesCountAPI({navigation, route}) {
             </View>
             {/* <DataTable.Cell style={{marginLeft: 20}}> */}
             <View style={{paddingTop: 12.7, padding: 25}}>
-              <Text style={styles.subHeading}>
+              <Text style={styles.subHeading1}>
                 {
                   districtWisePositiveCases[
                     districtWisePositiveCases.length - 1
@@ -255,7 +257,7 @@ export default function getPositiveCasesCountAPI({navigation, route}) {
             </View>
             {/* <DataTable.Cell style={{textAlign: 'center', marginLeft: 40}}> */}
             <View style={{paddingTop: 12.7, padding: 25}}>
-              <Text style={styles.subHeading}>
+              <Text style={styles.subHeading2}>
                 {
                   districtWisePositiveCases[
                     districtWisePositiveCases.length - 1
@@ -266,7 +268,7 @@ export default function getPositiveCasesCountAPI({navigation, route}) {
 
             {/* </DataTable.Cell> */}
             <View style={{paddingTop: 12.7, padding: 25}}>
-              <Text style={styles.subHeading}>
+              <Text style={styles.subHeading3}>
                 {(
                   (districtWisePositiveCases[
                     districtWisePositiveCases.length - 1
@@ -543,6 +545,28 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     textAlign: 'center',
+
+    fontSize: 15,
+    color: '#FF5733',
+    fontWeight: 'bold',
+  },
+  subHeading1: {
+    textAlign: 'center',
+    marginLeft: 4,
+    fontSize: 15,
+    color: '#FF5733',
+    fontWeight: 'bold',
+  },
+  subHeading2: {
+    textAlign: 'center',
+    paddingLeft: 9,
+    fontSize: 15,
+    color: '#FF5733',
+    fontWeight: 'bold',
+  },
+  subHeading3: {
+    textAlign: 'center',
+    paddingLeft: 5,
     fontSize: 15,
     color: '#FF5733',
     fontWeight: 'bold',
@@ -552,7 +576,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     fontWeight: 'bold',
-    paddingLeft: 15,
+    paddingLeft: 14,
     paddingTop: 1,
   },
   subHeadingTableCol1: {

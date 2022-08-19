@@ -28,6 +28,7 @@ export default function ModelParamSelection({navigation}) {
   const [eventType, setEventType] = useState('Classroom');
   const [roomSize, setRoomSize] = useState(60);
   const [durationofStay, setDurationofStay] = useState(12);
+  const [numberofDays, setNumberofDays] = useState(2);
   const [noOfPeople, setNoOfPeople] = useState(24);
   const [ventilation, setVentilation] = useState(0.35);
   const [ventilationType, setVentilationType] = useState('None');
@@ -36,8 +37,8 @@ export default function ModelParamSelection({navigation}) {
   const [speechVolume, setSpeechVolume] = useState(2);
   const [speechDuration, setSpeechDuration] = useState(10);
   //modal parameters text
-  const [speechDurationinTime, setSpeechDurationinTime] = useState('None');
-  const [speechVolumeText, setSpeechVolumeText] = useState('None');
+  const [speechDurationinTime, setSpeechDurationinTime] = useState('1.2 hr');
+  const [speechVolumeText, setSpeechVolumeText] = useState('Normal');
   const [showRiskInfo, setShowRiskInfo] = useState(true);
 
   React.useLayoutEffect(() => {
@@ -66,6 +67,7 @@ export default function ModelParamSelection({navigation}) {
     eventType,
     roomSize,
     durationofStay,
+    numberofDays,
     noOfPeople,
     ventilation,
     ceilingHeight,
@@ -83,6 +85,7 @@ export default function ModelParamSelection({navigation}) {
     setEventType,
     setRoomSize,
     setDurationofStay,
+    setNumberofDays,
     setNoOfPeople,
     setVentilation,
     setCeilingHeight,

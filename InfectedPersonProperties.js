@@ -144,7 +144,7 @@ function InfectedPersonProperties({infectedpplprops}) {
             </View>
           </View>
           <View style={styles.cardrow1}>
-            <Text style={styles.textStyle1}>Speech Time</Text>
+            <Text style={styles.textStyle1}>Speech Duration</Text>
             <Text style={styles.textStyle2}>Speech Volume</Text>
           </View>
           {showSpeechTime ? (
@@ -321,12 +321,12 @@ const styles = StyleSheet.create({
   },
   textStyle1: {
     color: 'black',
-    paddingLeft: 55,
+    paddingLeft: 45,
     fontSize: 14,
   },
   textStyle2: {
     color: 'black',
-    paddingLeft: 38,
+    paddingLeft: 30,
     fontSize: 14,
   },
   textStyle: {color: 'black', fontSize: 14},

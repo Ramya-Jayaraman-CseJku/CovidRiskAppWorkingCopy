@@ -220,7 +220,7 @@ export default function DataOverview({navigation}) {
                   style={styles.imgDimensions}
                 />
               </View>
-              <Card.Title style={styles.cardTitle}> REffective</Card.Title>
+              <Card.Title style={styles.cardTitle}> Effective R</Card.Title>
             </View>
 
             <View style={styles.cardRow}>

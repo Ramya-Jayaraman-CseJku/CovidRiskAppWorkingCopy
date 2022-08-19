@@ -10,6 +10,7 @@ function RoomProperties({roomprops}) {
   const [showCeilingHeight, setShowCeilingHeight] = useState(false);
   const [errorRoomSize, SetErrorRoomSize] = useState('');
   const [errorDuration, SetErrorDuration] = useState('');
+  const [errorNoofDays, SetErrorNoofDays] = useState('');
   const [errorPplCount, SetErrorPplCount] = useState('');
   const [bg, setBg] = useState({colorId: 0});
   function setValuesByEvent(selectedId) {
@@ -23,13 +24,14 @@ function RoomProperties({roomprops}) {
       roomprops.setRoomSize(60);
       roomprops.setCeilingHeight(3);
       roomprops.setDurationofStay(12);
+      roomprops.setNumberofDays(2);
       roomprops.setNoOfPeople(24);
       roomprops.setMaskTypeI('No Mask');
       roomprops.setMaskTypeN('No Mask');
       roomprops.setMaskCategoryPpl('Mask For People');
       roomprops.setVentilationType('Window Closed');
       roomprops.setSpeechVolumeText('Normal');
-      roomprops.setSpeechDurationinTime('10%');
+      roomprops.setSpeechDurationinTime('1.2 hr');
     } else if (selectedId == 'Office') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(2);
@@ -40,13 +42,14 @@ function RoomProperties({roomprops}) {
       roomprops.setRoomSize(40);
       roomprops.setCeilingHeight(3);
       roomprops.setDurationofStay(16);
+      roomprops.setNumberofDays(2);
       roomprops.setNoOfPeople(4);
       roomprops.setMaskTypeI('No Mask');
       roomprops.setMaskTypeN('No Mask');
       roomprops.setMaskCategoryPpl('Mask For People');
       roomprops.setVentilationType('Window Closed');
       roomprops.setSpeechVolumeText('Normal');
-      roomprops.setSpeechDurationinTime('10%');
+      roomprops.setSpeechDurationinTime('1.6 hr');
     } else if (selectedId == 'Reception') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(2);
@@ -57,13 +60,14 @@ function RoomProperties({roomprops}) {
       roomprops.setRoomSize(100);
       roomprops.setCeilingHeight(4);
       roomprops.setDurationofStay(3);
+      roomprops.setNumberofDays(2);
       roomprops.setNoOfPeople(100);
       roomprops.setMaskTypeI('No Mask');
       roomprops.setMaskTypeN('No Mask');
       roomprops.setMaskCategoryPpl('Mask For People');
       roomprops.setVentilationType('Window Closed');
       roomprops.setSpeechVolumeText('Normal');
-      roomprops.setSpeechDurationinTime('25%');
+      roomprops.setSpeechDurationinTime('1.10 hr');
     } else if (selectedId == 'Choir') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(5.32);
@@ -74,13 +78,14 @@ function RoomProperties({roomprops}) {
       roomprops.setRoomSize(100);
       roomprops.setCeilingHeight(4);
       roomprops.setDurationofStay(3);
+      roomprops.setNumberofDays(2);
       roomprops.setNoOfPeople(25);
       roomprops.setMaskTypeI('No Mask');
       roomprops.setMaskTypeN('No Mask');
       roomprops.setMaskCategoryPpl('Mask For People');
       roomprops.setVentilationType('Window Closed');
       roomprops.setSpeechVolumeText('Yelling');
-      roomprops.setSpeechDurationinTime('60%');
+      roomprops.setSpeechDurationinTime('1.8 hr');
     } else if (selectedId == 'Supermarket') {
       roomprops.setEventType(selectedId);
       roomprops.setSpeechVolume(3);
@@ -91,13 +96,14 @@ function RoomProperties({roomprops}) {
       roomprops.setRoomSize(200);
       roomprops.setCeilingHeight(4.5);
       roomprops.setDurationofStay(1);
+      roomprops.setNumberofDays(2);
       roomprops.setNoOfPeople(10);
       roomprops.setMaskTypeI('No Mask');
       roomprops.setMaskTypeN('No Mask');
       roomprops.setMaskCategoryPpl('Mask For People');
       roomprops.setVentilationType('Ventilation System');
       roomprops.setSpeechVolumeText('Loud');
-      roomprops.setSpeechDurationinTime('5%');
+      roomprops.setSpeechDurationinTime('3 min');
     }
   }
   const selectedVentilation = (value, window, id, ventilationType) => {
@@ -117,12 +123,12 @@ function RoomProperties({roomprops}) {
     if (Number.isNaN(parsedRoomSize)) {
       roomprops.setRoomSize(Math.round(0));
       SetErrorRoomSize('Enter a Number');
-    } else if (parsedRoomSize < 10) {
+    } else if (parsedRoomSize < 40) {
       roomprops.setRoomSize(Math.round(parsedRoomSize));
-      SetErrorRoomSize('Minimum size is 10 sq.m');
-    } else if (parsedRoomSize > 200) {
+      SetErrorRoomSize('Minimum size is 40 sq.m');
+    } else if (parsedRoomSize > 100) {
       roomprops.setRoomSize(Math.round(parsedRoomSize));
-      SetErrorRoomSize('Maximum size is 200 sq.m');
+      SetErrorRoomSize('Maximum size is 100 sq.m');
     } else {
       roomprops.setRoomSize(Math.round(parseFloat(parsedRoomSize)));
       SetErrorRoomSize('');
@@ -142,6 +148,22 @@ function RoomProperties({roomprops}) {
     } else {
       roomprops.setDurationofStay(Math.round(parseFloat(parsedDuration)));
       SetErrorDuration('');
+    }
+  };
+  const onCheckLimitNumberfDay = numberofDay => {
+    const parsedDay = Number.parseFloat(numberofDay);
+    if (Number.isNaN(parsedDay)) {
+      roomprops.setNumberofDays(Math.round(0));
+      SetErrorNoofDays('Enter a Number');
+    } else if (parsedDay < 1) {
+      roomprops.setNumberofDays(Math.round(parsedDay));
+      SetErrorNoofDays('Minimum of 1 day');
+    } else if (parsedDay > 2) {
+      roomprops.setNumberofDays(Math.round(parsedDay));
+      SetErrorNoofDays('Maximum of 2 days');
+    } else {
+      roomprops.setNumberofDays(Math.round(parseFloat(parsedDay)));
+      SetErrorNoofDays('');
     }
   };
   const onCheckLimitPeopleCount = pplCount => {
@@ -288,6 +310,24 @@ function RoomProperties({roomprops}) {
               {errorDuration}
             </HelperText>
             <TextInput
+              selectionColor="#9239FE"
+              style={styles.textInputLabel}
+              label={<Text style={{fontSize: 18}}>Number of days</Text>}
+              value={roomprops.numberofDays.toString()}
+              onChangeText={noofDays => onCheckLimitNumberfDay(noofDays)}
+              mode="outlined"
+              placeholder="Enter Number of Days"
+              keyboardType={'numeric'}
+              theme={{
+                colors: {
+                  text: '#9239FE',
+                },
+              }}
+            />
+            <HelperText type="error" visible={true} style={styles.helpText}>
+              {errorNoofDays}
+            </HelperText>
+            <TextInput
               style={styles.textInputLabel}
               label={<Text style={{fontSize: 18}}>Number of people</Text>}
               value={roomprops.noOfPeople.toString()}
@@ -338,7 +378,7 @@ function RoomProperties({roomprops}) {
             </View>
           </View>
           <View style={styles.cardrow1}>
-            <Text style={styles.textStyle1}>Window</Text>
+            <Text style={styles.textStyle1}>Ventilation Type</Text>
             <Text style={styles.textStyle2}>Ceiling Height</Text>
           </View>
           {showWindow ? (
@@ -467,7 +507,7 @@ const styles = StyleSheet.create({
   cardrow: {
     flexDirection: 'row',
 
-    //paddingTop: 5,
+    //marginVertical: 0,
     // paddingBottom: 20,
     // paddingBottom: 15,
   },
@@ -506,16 +546,16 @@ const styles = StyleSheet.create({
   },
   cardrow1: {
     flexDirection: 'row',
-    // paddingTop: 3,
+    paddingTop: 3,
   },
   textStyle1: {
     color: 'black',
-    paddingLeft: 69,
+    paddingLeft: 49,
     fontSize: 14,
   },
   textStyle2: {
     color: 'black',
-    paddingLeft: 64,
+    paddingLeft: 34,
     fontSize: 14,
   },
   spaceImagesinSubset: {
@@ -524,7 +564,7 @@ const styles = StyleSheet.create({
     paddingLeft: 9,
     alignContent: 'center',
     alignItems: 'center',
-    marginBottom: 9,
+    marginBottom: 0,
   },
   imgDimensionsinSubset: {
     width: 45,

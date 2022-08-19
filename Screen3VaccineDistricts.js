@@ -40,9 +40,11 @@ export default function getFullyVaccinatedCountAPI({navigation, route}) {
   const [loading, setLoading] = useState(true);
   const [districtWiseVaccCount, setDistrictWiseVaccCount] = useState([]);
   const [selectedDistrictName, setSelectedDistrictName] = useState(
-    route.params.municipalityName.toString(),
+    route.params.municipalityName
+      ? route.params.municipalityName.toString()
+      : 'Linz',
     //global.municipalityName.toString(),
-    // 'Linz',
+    // 'Altenberg bei Linz',
   );
   const [selectedInterval, setSelectedInterval] = useState('Monthly');
   const [query, setQuery] = useState('');

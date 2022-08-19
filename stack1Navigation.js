@@ -117,7 +117,7 @@ function DataOverviewStack() {
           name="REffective Value"
           component={getReffectiveValue}
           options={{
-            title: 'REffective Value',
+            title: 'Effective Reproductive Number',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#0597D8',
@@ -135,7 +135,7 @@ function DataOverviewStack() {
           name="Warning Level"
           component={getWarningLevelDataAPI}
           options={{
-            title: 'Warning',
+            title: 'Warning Level',
             headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: '#d78700',

@@ -46,8 +46,8 @@ export default function ModelParamSelection({navigation}) {
   const [speechVolume, setSpeechVolume] = useState(2);
   const [speechDuration, setSpeechDuration] = useState(10);
   //modal parameters text
-  const [speechDurationinTime, setSpeechDurationinTime] = useState('None');
-  const [speechVolumeText, setSpeechVolumeText] = useState('None');
+  const [speechDurationinTime, setSpeechDurationinTime] = useState('1.2 hr');
+  const [speechVolumeText, setSpeechVolumeText] = useState('Normal');
   const behavioralProps = {
     maskCateogoryPpl,
     maskEfficiencyI,

@@ -36,7 +36,7 @@ export default function getWarningLevelDataAPI({navigation}) {
   const [districtName, setDistrictName] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorDate, setError] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date('2022-05-19'));
+  const [selectedDate, setSelectedDate] = useState(new Date('2022-08-18'));
 
   const [selectedWarnLevelDate, setSelectedWarnLevelDate] =
     useState('2022-05-19');
@@ -297,10 +297,10 @@ export default function getWarningLevelDataAPI({navigation}) {
               orientation="horizontal"
               gutter={30}
               data={[
-                {name: 'High', symbol: {fill: 'red', type: 'circle'}},
-                {name: 'Medium', symbol: {fill: 'orange', type: 'circle'}},
-                {name: 'Low', symbol: {fill: 'gold', type: 'circle'}},
-                {name: 'Very Low', symbol: {fill: 'green', type: 'circle'}},
+                {name: 'Very High', symbol: {fill: 'red', type: 'circle'}},
+                {name: 'High', symbol: {fill: 'orange', type: 'circle'}},
+                {name: 'Medium', symbol: {fill: 'gold', type: 'circle'}},
+                {name: 'Low', symbol: {fill: 'green', type: 'circle'}},
               ]}
             />
           </Card>

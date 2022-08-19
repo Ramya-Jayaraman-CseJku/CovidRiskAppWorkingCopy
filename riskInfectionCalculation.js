@@ -25,6 +25,7 @@ export default function RiskInfoandSimulation({todos}) {
   const selectedeventType = todos.eventType;
   const roomSize = todos.roomSize;
   const durationOfStay = todos.durationofStay;
+  const numberofDays = todos.numberofDays;
   const noOfPeople = todos.noOfPeople;
   const ventilation = todos.ventilation;
   const ventilationType = todos.ventilationType;
@@ -69,10 +70,11 @@ export default function RiskInfoandSimulation({todos}) {
   const RNADosis =
     respiratoryrate * 60 * RNAContentAerosolconc * Depositionprobability;
   const ventilationandviruslftimeaerosol = ventilation + 0.5882;
-  const Depisode = RNADosis / ventilationandviruslftimeaerosol;
-  const dosishrs = 1 - maskEfficiencyNormal;
-  const depisodehrs = Depisode * dosishrs;
-  const Dosisinfepisodehrs = depisodehrs * durationOfStay;
+  const RNADosisventVirus = RNADosis / ventilationandviruslftimeaerosol;
+  const maskEffNP = 1 - maskEfficiencyNormal;
+  const DEpisode = RNADosisventVirus * maskEffNP;
+  const durationexposureperday = durationOfStay / numberofDays;
+  const Dosisinfepisodehrs = DEpisode * durationexposureperday * numberofDays;
   const Depisoden = Dosisinfepisodehrs * noOfPeople;
   const noofpplinsimulation = parseInt(noOfPeople);
   let exponent = Dosisinfepisodehrs;
@@ -100,7 +102,12 @@ export default function RiskInfoandSimulation({todos}) {
             R-
             <Text style={{color: 'black', fontSize: 17, fontWeight: 'normal'}}>
               Probability that at least one susceptible person gets infected.
+              {'\n'}
             </Text>{' '}
+            *Assumption:{'\n '}
+            <Text style={{color: 'black', fontSize: 17, fontWeight: 'normal'}}>
+              One person is infectious in the room. {'\n'}
+            </Text>
           </Text>
         </Collapsible>
       </View>
@@ -112,7 +119,7 @@ export default function RiskInfoandSimulation({todos}) {
       <View>
         <Card containerStyle={styles.cardContainer}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.RiskInfHeading}>Risk Infection </Text>
+            <Text style={styles.RiskInfHeading}>Risk of Infection </Text>
             <TouchableOpacity onPress={toggleRiskInfo}>
               <Icon
                 name="information"

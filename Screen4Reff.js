@@ -213,7 +213,7 @@ export default function getReffectiveValue({navigation}) {
                 minimumZoom={{x: 3, y: 0.01}}
                 /*  zoomDomain={zoomDomain}
                   onZoomDomainChange={handleZoom} */
-                labels={({datum}) => `R_Eff: ${datum.R_eff.toFixed(2)}`}
+                labels={({datum}) => `R: ${datum.R_eff.toFixed(2)}`}
               />
             }>
             <VictoryAxis
